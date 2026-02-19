@@ -790,6 +790,18 @@ $order_sch = Cache::rememberForever('order_scheduled_stats', function () {
                     @endif
                     <!-- End Banner -->
 
+                    <!-- Custom Pages -->
+                    <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/custom-page*') ? 'active' : '' }}">
+                        <a class="js-navbar-vertical-aside-menu-link nav-link"
+                            href="{{ route('admin.custom-page.index') }}"
+                            title="{{ translate('messages.custom_pages') }}">
+                            <i class="tio-pages-outlined nav-icon side-nav-icon--design"></i>
+                            <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                {{ translate('messages.custom_pages') }}
+                            </span>
+                        </a>
+                    </li>
+                    <!-- End Custom Pages -->
 
 
 
