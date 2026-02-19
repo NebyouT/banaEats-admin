@@ -7330,9 +7330,9 @@
   'Set how many times AI can generate data from an image upload ' => 'Set how many times AI can generate data from an image upload ',
   'Set how many times  AI can generate data for each element of the restaurant panel or app' => 'Set how many times  AI can generate data for each element of the restaurant panel or app',
   'duplicate_data_on_column' => 'Duplicate data on column',
-<<<<<<< HEAD
+
   'The upload excel field is required.' => 'The upload excel field is required.',
-=======
+
   'custom_pages' => 'Custom pages',
   'add_custom_page' => 'Add custom page',
   'slug' => 'Slug',
@@ -7366,5 +7366,5 @@
   'change_image' => 'Change image',
   'update_page' => 'Update page',
   'custom_page_updated_successfully' => 'Custom page updated successfully',
->>>>>>> refs/remotes/origin/main
+
 );
