@@ -7330,4 +7330,5 @@
   'Set how many times AI can generate data from an image upload ' => 'Set how many times AI can generate data from an image upload ',
   'Set how many times  AI can generate data for each element of the restaurant panel or app' => 'Set how many times  AI can generate data for each element of the restaurant panel or app',
   'duplicate_data_on_column' => 'Duplicate data on column',
+  'The upload excel field is required.' => 'The upload excel field is required.',
 );
