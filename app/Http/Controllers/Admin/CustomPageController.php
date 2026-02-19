@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Validator;
 
 class CustomPageController extends Controller
 {
+    private const BG_IMAGE_MIMES = ['image/jpeg', 'image/png', 'image/webp'];
+    private const BG_GIF_MIMES   = ['image/gif'];
+    private const BG_VIDEO_MIMES = ['video/mp4', 'video/webm', 'video/quicktime'];
     public function index()
     {
         $pages = CustomPage::latest()->paginate(config('default_pagination'));
@@ -30,7 +33,7 @@ class CustomPageController extends Controller
         $validator = Validator::make($request->all(), [
             'title'            => 'required|max:191',
             'background_color' => 'nullable|max:20',
-            'background_image' => 'nullable|image|max:2048',
+            'background_image' => 'nullable|file|max:20480',
         ]);
 
         if ($validator->fails()) {
@@ -48,7 +51,13 @@ class CustomPageController extends Controller
         $page->status           = 1;
 
         if ($request->hasFile('background_image')) {
-            $page->background_image = Helpers::upload(dir: 'custom-page/', format: 'png', image: $request->file('background_image'));
+            $file      = $request->file('background_image');
+            $mediaType = $this->detectBgMediaType($file);
+            if (!$mediaType) {
+                return response()->json(['errors' => [['code' => 'background_image', 'message' => 'Unsupported file. Allowed: JPG, PNG, WebP, GIF, MP4, WebM, MOV.']]]);
+            }
+            $page->background_media_type = $mediaType;
+            $page->background_image      = $this->uploadBgMedia($file, $mediaType);
         }
 
         $page->save();
@@ -99,7 +108,7 @@ class CustomPageController extends Controller
         $validator = Validator::make($request->all(), [
             'title'            => 'required|max:191',
             'background_color' => 'nullable|max:20',
-            'background_image' => 'nullable|image|max:2048',
+            'background_image' => 'nullable|file|max:20480',
         ]);
 
         if ($validator->fails()) {
@@ -114,12 +123,16 @@ class CustomPageController extends Controller
         $custom_page->restaurant_ids   = $request->restaurant_ids ? array_map('intval', (array) $request->restaurant_ids) : [];
 
         if ($request->hasFile('background_image')) {
-            $custom_page->background_image = Helpers::update(
-                dir: 'custom-page/',
-                old_image: $custom_page->background_image,
-                format: 'png',
-                image: $request->file('background_image')
-            );
+            $file      = $request->file('background_image');
+            $mediaType = $this->detectBgMediaType($file);
+            if (!$mediaType) {
+                return response()->json(['errors' => [['code' => 'background_image', 'message' => 'Unsupported file. Allowed: JPG, PNG, WebP, GIF, MP4, WebM, MOV.']]]);
+            }
+            if ($custom_page->background_image) {
+                Helpers::check_and_delete('custom-page/', $custom_page->background_image);
+            }
+            $custom_page->background_media_type = $mediaType;
+            $custom_page->background_image      = $this->uploadBgMedia($file, $mediaType);
         }
 
         $custom_page->save();
@@ -203,5 +216,24 @@ class CustomPageController extends Controller
                 'logo_full_url' => $r->logo_full_url ?? null,
             ];
         }));
+    }
+
+    // ── Background media helpers ───────────────────────────────────────────────
+
+    private function detectBgMediaType($file): ?string
+    {
+        $mime = $file->getMimeType();
+        if (in_array($mime, self::BG_IMAGE_MIMES)) return 'image';
+        if (in_array($mime, self::BG_GIF_MIMES))   return 'gif';
+        if (in_array($mime, self::BG_VIDEO_MIMES))  return 'video';
+        return null;
+    }
+
+    private function uploadBgMedia($file, string $mediaType): string
+    {
+        $ext      = $mediaType === 'video' ? $file->getClientOriginalExtension() : ($mediaType === 'gif' ? 'gif' : 'png');
+        $filename = \Illuminate\Support\Str::uuid() . '.' . $ext;
+        $file->storeAs('public/custom-page', $filename);
+        return $filename;
     }
 }

@@ -803,8 +803,18 @@ $order_sch = Cache::rememberForever('order_scheduled_stats', function () {
                     </li>
                     <!-- End Custom Pages -->
 
-
-
+                    <!-- Custom Page Banners -->
+                    <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/custom-page-banner*') ? 'active' : '' }}">
+                        <a class="js-navbar-vertical-aside-menu-link nav-link"
+                            href="{{ route('admin.custom-page-banner.index') }}"
+                            title="Custom Page Banners">
+                            <i class="tio-image nav-icon side-nav-icon--design"></i>
+                            <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                Custom Page Banners
+                            </span>
+                        </a>
+                    </li>
+                    <!-- End Custom Page Banners -->
 
 
                     <!-- advertisement -->

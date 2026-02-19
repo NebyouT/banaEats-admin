@@ -947,6 +947,17 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('search-restaurants',                 'CustomPageController@search_restaurants')->name('search-restaurants');
         });
 
+        // Custom Page Banners
+        Route::group(['prefix' => 'custom-page-banner', 'as' => 'custom-page-banner.'], function () {
+            Route::get('/',                                          'CustomPageBannerController@index')->name('index');
+            Route::get('create',                                     'CustomPageBannerController@create')->name('create');
+            Route::post('store',                                     'CustomPageBannerController@store')->name('store');
+            Route::get('edit/{custom_page_banner}',                  'CustomPageBannerController@edit')->name('edit');
+            Route::put('update/{custom_page_banner}',                'CustomPageBannerController@update')->name('update');
+            Route::post('status',                                    'CustomPageBannerController@status')->name('status');
+            Route::delete('delete/{custom_page_banner}',             'CustomPageBannerController@delete')->name('delete');
+        });
+
     }); //Admin auth middleware
     Route::get('zone/get-coordinates/{id}', 'ZoneController@get_coordinates')->name('zone.get-coordinates');
 });

@@ -328,6 +328,12 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>['localization','react']], 
         Route::get('{slug}', 'CustomPageController@details');
     });
 
+    // Custom Page Banners
+    Route::group(['prefix' => 'custom-page-banners'], function () {
+        Route::get('/',    'CustomPageBannerController@list');
+        Route::get('{id}', 'CustomPageBannerController@details');
+    });
+
     Route::group(['prefix' => 'categories'], function () {
         Route::get('/', 'CategoryController@get_categories');
         Route::get('childes/{category_id}', 'CategoryController@get_childes');

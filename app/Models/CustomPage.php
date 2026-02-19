@@ -14,17 +14,18 @@ class CustomPage extends Model
 
     protected $fillable = [
         'title', 'slug', 'subtitle', 'promotional_text',
-        'background_image', 'background_color', 'product_ids',
-        'restaurant_ids', 'status',
+        'background_image', 'background_media_type', 'background_color',
+        'product_ids', 'restaurant_ids', 'status',
     ];
 
     protected $casts = [
         'product_ids'    => 'array',
         'restaurant_ids' => 'array',
         'status'         => 'integer',
+        'background_media_type' => 'string',
     ];
 
-    protected $appends = ['background_image_full_url'];
+    protected $appends = ['background_image_full_url', 'background_media_full_url'];
 
     public function getBackgroundImageFullUrlAttribute()
     {
@@ -38,6 +39,20 @@ class CustomPage extends Model
             ->first();
 
         return Helpers::get_full_url('custom-page', $value, $storage->value ?? 'public');
+    }
+
+    /**
+     * Alias that always returns the background media URL regardless of type.
+     * Flutter should use background_media_type to decide how to render it.
+     */
+    public function getBackgroundMediaFullUrlAttribute()
+    {
+        return $this->background_image_full_url;
+    }
+
+    public function isBackgroundVideo(): bool
+    {
+        return in_array($this->background_media_type, ['video', 'gif']);
     }
 
     public function scopeActive($query)

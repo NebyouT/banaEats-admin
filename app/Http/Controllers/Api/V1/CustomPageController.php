@@ -29,9 +29,10 @@ class CustomPageController extends Controller
                     'slug'                     => $page->slug,
                     'subtitle'                 => $page->subtitle,
                     'promotional_text'         => $page->promotional_text,
-                    'background_color'         => $page->background_color,
-                    'background_image_full_url'=> $page->background_image_full_url,
-                    'updated_at'               => $page->updated_at,
+                    'background_color'          => $page->background_color,
+                    'background_media_type'     => $page->background_media_type ?? 'image',
+                    'background_image_full_url' => $page->background_image_full_url,
+                    'updated_at'                => $page->updated_at,
                 ];
             });
 
@@ -122,6 +123,7 @@ class CustomPageController extends Controller
             'subtitle'                  => $page->subtitle,
             'promotional_text'          => $page->promotional_text,
             'background_color'          => $page->background_color,
+            'background_media_type'     => $page->background_media_type ?? 'image',
             'background_image_full_url' => $page->background_image_full_url,
             'products'                  => $products,
             'restaurants'               => $restaurants,
