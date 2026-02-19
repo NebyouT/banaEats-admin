@@ -933,6 +933,20 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('change-status/{id}/{status}', 'DeliveryManDisbursementController@statusById')->name('change-status');
             Route::get('export/{id}/{type?}', 'DeliveryManDisbursementController@export')->name('export');
         });
+        // Custom Pages
+        Route::group(['prefix' => 'custom-page', 'as' => 'custom-page.'], function () {
+            Route::get('/',                                  'CustomPageController@index')->name('index');
+            Route::get('create',                             'CustomPageController@create')->name('create');
+            Route::post('store',                             'CustomPageController@store')->name('store');
+            Route::get('edit/{custom_page}',                 'CustomPageController@edit')->name('edit');
+            Route::put('update/{custom_page}',               'CustomPageController@update')->name('update');
+            Route::post('status',                            'CustomPageController@status')->name('status');
+            Route::delete('delete/{custom_page}',            'CustomPageController@delete')->name('delete');
+            // AJAX search helpers
+            Route::get('search-products',                    'CustomPageController@search_products')->name('search-products');
+            Route::get('search-restaurants',                 'CustomPageController@search_restaurants')->name('search-restaurants');
+        });
+
     }); //Admin auth middleware
     Route::get('zone/get-coordinates/{id}', 'ZoneController@get_coordinates')->name('zone.get-coordinates');
 });
