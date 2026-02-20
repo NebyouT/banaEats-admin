@@ -165,3 +165,456 @@ ol.breadcrumb {
 .div_size {
     margin-inline-end: 60px;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   BanaEats Brand Overrides
+   Primary  : #8DC63F  (green)
+   Secondary: #F5D800  (yellow)
+   Dark     : #1A1A1A  (black)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Sidebar ─────────────────────────────────────────────── */
+.navbar-vertical-aside,
+.navbar.navbar-vertical-aside {
+    background: #1A1A1A !important;
+    border-right: none !important;
+}
+
+.navbar-vertical-container {
+    background: #1A1A1A !important;
+}
+
+.navbar__brand-wrapper,
+.navbar-brand-wrapper {
+    background: #1A1A1A !important;
+    border-bottom: 1px solid rgba(245,216,0,0.15) !important;
+}
+
+/* Sidebar logo area accent line */
+.navbar__brand-wrapper::after {
+    content: '';
+    display: block;
+    height: 3px;
+    background: linear-gradient(90deg, #F5D800 0%, #8DC63F 100%);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+/* Sidebar nav content background */
+#navbar-vertical-content,
+.navbar-vertical-content {
+    background: #1A1A1A !important;
+}
+
+/* Sidebar nav links */
+.navbar-vertical .navbar-nav .nav-link {
+    color: rgba(255,255,255,0.78) !important;
+    border-radius: 6px;
+    margin: 1px 8px;
+    transition: background 0.15s, color 0.15s;
+}
+
+.navbar-vertical .navbar-nav .nav-link:hover,
+.navbar-vertical .navbar-nav .nav-link:focus {
+    background: rgba(245,216,0,0.10) !important;
+    color: #F5D800 !important;
+}
+
+/* Active sidebar item */
+.navbar-vertical .navbar-nav .navbar-vertical-aside-has-menu.active > .nav-link,
+.navbar-vertical .navbar-nav .nav-link.active {
+    background: linear-gradient(90deg, rgba(141,198,63,0.18) 0%, rgba(141,198,63,0.06) 100%) !important;
+    color: #8DC63F !important;
+    border-left: 3px solid #8DC63F !important;
+}
+
+/* Active sub-item indicator dot */
+.navbar-vertical .active .nav-indicator-icon,
+.navbar-vertical .nav-link:hover .nav-indicator-icon {
+    color: #F5D800 !important;
+}
+
+/* Sidebar section subtitles */
+.nav-subtitle {
+    color: rgba(245,216,0,0.50) !important;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    padding-left: 16px;
+    margin-top: 8px;
+}
+
+/* Sidebar search bar */
+.sidebar--search-form .search--form-group {
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(245,216,0,0.18) !important;
+    border-radius: 8px;
+}
+
+.sidebar--search-form .form--control {
+    background: transparent !important;
+    color: #fff !important;
+}
+
+.sidebar--search-form .form--control::placeholder {
+    color: rgba(255,255,255,0.4) !important;
+}
+
+.sidebar--search-form .btn { color: rgba(245,216,0,0.7) !important; }
+
+/* Sidebar toggle button */
+.navbar-vertical-aside-toggle { color: rgba(255,255,255,0.6) !important; }
+.navbar-vertical-aside-toggle:hover { color: #F5D800 !important; }
+
+/* ── Top Header / Navbar ─────────────────────────────────── */
+.navbar.navbar-expand-lg,
+.navbar-top,
+header.navbar {
+    background: #ffffff !important;
+    border-bottom: 2px solid #F5D800 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
+}
+
+/* Header icons */
+.navbar-top .nav-link,
+header .navbar-nav .nav-link {
+    color: #1A1A1A !important;
+}
+
+.navbar-top .nav-link:hover,
+header .navbar-nav .nav-link:hover {
+    color: #8DC63F !important;
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.btn-primary,
+.btn--primary {
+    background: #8DC63F !important;
+    border-color: #8DC63F !important;
+    color: #fff !important;
+}
+
+.btn-primary:hover,
+.btn--primary:hover {
+    background: #6FA82E !important;
+    border-color: #6FA82E !important;
+    color: #fff !important;
+}
+
+.btn-primary:focus,
+.btn--primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(141,198,63,0.35) !important;
+}
+
+.btn-secondary {
+    background: #F5D800 !important;
+    border-color: #F5D800 !important;
+    color: #1A1A1A !important;
+}
+
+.btn-secondary:hover {
+    background: #D4BB00 !important;
+    border-color: #D4BB00 !important;
+    color: #1A1A1A !important;
+}
+
+.btn-outline-primary {
+    color: #8DC63F !important;
+    border-color: #8DC63F !important;
+    background: transparent !important;
+}
+
+.btn-outline-primary:hover {
+    background: #8DC63F !important;
+    color: #fff !important;
+}
+
+.btn-outline-secondary {
+    color: #D4BB00 !important;
+    border-color: #D4BB00 !important;
+    background: transparent !important;
+}
+
+.btn-outline-secondary:hover {
+    background: #F5D800 !important;
+    color: #1A1A1A !important;
+}
+
+/* ── Badges ──────────────────────────────────────────────── */
+.badge-primary,
+.badge-soft-primary {
+    background: rgba(141,198,63,0.15) !important;
+    color: #5a8a1a !important;
+}
+
+.badge-secondary,
+.badge-soft-secondary {
+    background: rgba(245,216,0,0.18) !important;
+    color: #8a7200 !important;
+}
+
+.badge-success,
+.badge-soft-success {
+    background: rgba(141,198,63,0.15) !important;
+    color: #4a7a10 !important;
+}
+
+.badge-warning,
+.badge-soft-warning {
+    background: rgba(245,216,0,0.20) !important;
+    color: #8a7200 !important;
+}
+
+/* ── Pagination ──────────────────────────────────────────── */
+.page-item.active .page-link {
+    background-color: #8DC63F !important;
+    border-color: #8DC63F !important;
+    color: #fff !important;
+}
+
+.page-link {
+    color: #8DC63F !important;
+}
+
+.page-link:hover {
+    background: #EAF5D3 !important;
+    color: #6FA82E !important;
+}
+
+/* ── Links ───────────────────────────────────────────────── */
+a { color: #8DC63F; }
+a:hover { color: #6FA82E; }
+
+/* ── Form focus ──────────────────────────────────────────── */
+.form-control:focus,
+.custom-select:focus {
+    border-color: #8DC63F !important;
+    box-shadow: 0 0 0 0.2rem rgba(141,198,63,0.20) !important;
+}
+
+/* ── Card header accent ──────────────────────────────────── */
+.card > .card-header {
+    border-bottom: 2px solid rgba(141,198,63,0.18) !important;
+}
+
+/* ── Page header title icon ──────────────────────────────── */
+.page-header-icon { color: #8DC63F !important; }
+
+/* ── Stat / KPI cards top border ─────────────────────────── */
+.card.card--shadow {
+    border-top: 3px solid #8DC63F !important;
+}
+
+/* ── Select2 selected items ──────────────────────────────── */
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #8DC63F !important;
+    border-color: #6FA82E !important;
+    color: #fff !important;
+}
+
+.select2-container--default .select2-results__option--highlighted {
+    background-color: #8DC63F !important;
+    color: #fff !important;
+}
+
+/* ── Toastr success ──────────────────────────────────────── */
+.toast-success { background-color: #8DC63F !important; }
+
+/* ── Pre-loader accent ───────────────────────────────────── */
+.pre--loader {
+    background: linear-gradient(135deg, #1A1A1A 0%, #2C2C2C 100%) !important;
+}
+
+/* ── Scrollbar thumb ─────────────────────────────────────── */
+::-webkit-scrollbar-thumb { background: #8DC63F !important; }
+::-webkit-scrollbar-thumb:hover { background: #6FA82E !important; }
+
+/* ── Active nav indicator mini-mode ─────────────────────── */
+.navbar-vertical-aside-mini-mode .navbar-nav > .navbar-vertical-aside-has-menu.active > .nav-link-toggle::before {
+    background-color: #8DC63F !important;
+}
+
+/* ── Dropdown active item ────────────────────────────────── */
+.dropdown-item.active,
+.dropdown-item:active {
+    background-color: #8DC63F !important;
+    color: #fff !important;
+}
+
+/* ── Table row hover ─────────────────────────────────────── */
+.table-hover tbody tr:hover {
+    background-color: rgba(141,198,63,0.06) !important;
+}
+
+/* ── Breadcrumb active ───────────────────────────────────── */
+.breadcrumb-item.active { color: #8DC63F !important; }
+.breadcrumb-item a { color: #8DC63F !important; }
+
+/* ── Status toggle (active) ──────────────────────────────── */
+input:checked + .slider { background-color: #8DC63F !important; }
+
+/* ── Header brand accent strip ───────────────────────────── */
+.navbar-brand-logo { filter: drop-shadow(0 0 4px rgba(245,216,0,0.3)); }
+
+/* ═══════════════════════════════════════════════════════════
+   Override theme.minc619.css hardcoded blue (#377dff) values
+   ═══════════════════════════════════════════════════════════ */
+
+/* Custom checkbox card */
+.custom-checkbox-card-input:checked ~ .custom-checkbox-card-label,
+.custom-checkbox-card-input:checked ~ .custom-checkbox-card-label-stretched {
+    border-color: #8DC63F !important;
+}
+.custom-checkbox-card.checked .custom-checkbox-card-btn {
+    background-color: #8DC63F !important;
+    border-color: #8DC63F !important;
+}
+.custom-checkbox-list:hover .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #8DC63F !important;
+}
+
+/* Custom checkbox switch */
+.custom-checkbox-switch-label {
+    color: #8DC63F !important;
+    border-color: #8DC63F !important;
+}
+.custom-checkbox-switch-label:hover { color: #6FA82E !important; }
+.custom-checkbox-switch-input:checked ~ .custom-checkbox-switch-label {
+    background-color: #8DC63F !important;
+    border-color: #8DC63F !important;
+}
+
+/* Checkbox outline primary */
+.checkbox-outline-primary .custom-control-label::before { border-color: #8DC63F !important; }
+.checkbox-outline-primary .custom-control-input:not(:disabled):active ~ .custom-control-label::before {
+    border-color: #8DC63F !important;
+    background-color: #8DC63F !important;
+}
+
+/* Nav link active (theme) */
+.nav-link.active { color: #8DC63F !important; }
+.nav-item.active .nav-link { color: #8DC63F !important; }
+.nav-pills:not(.nav-segment) .nav-link.active {
+    background-color: #8DC63F !important;
+    color: #fff !important;
+}
+.nav-segment .nav-link:hover { color: #8DC63F !important; }
+
+/* Go-to button */
+.go-to:focus:hover,
+.go-to:hover {
+    background-color: #8DC63F !important;
+}
+
+/* Icon primary */
+.icon-primary {
+    border-color: #8DC63F !important;
+    background-color: #8DC63F !important;
+}
+.icon-soft-primary {
+    color: #8DC63F !important;
+    background: rgba(141,198,63,0.12) !important;
+}
+
+/* Step wizard */
+.step .active .step-icon,
+.step .active.is-valid .step-icon,
+.step .is-valid .step-icon {
+    background-color: #8DC63F !important;
+}
+.step .active .step-title,
+.step .active.is-valid .step-title,
+.step .is-valid .step-title { color: #8DC63F !important; }
+.step-icon-primary { background-color: #8DC63F !important; }
+.step-icon-soft-primary { color: #8DC63F !important; background-color: rgba(141,198,63,0.12) !important; }
+.step-icon-soft-primary.step-icon-pseudo::before { background-color: #8DC63F !important; }
+
+/* Border inline start primary */
+.border-inline-start-primary { border-inline-start-color: #8DC63F !important; }
+
+/* Text dark/secondary hover */
+.text-dark[href]:hover,
+.text-secondary[href]:hover { color: #8DC63F !important; }
+
+/* Fancybox progress */
+.fancybox-custom .fancybox-progress { background-color: #8DC63F !important; }
+
+/* FullCalendar */
+.fullcalendar-custom .fc-daygrid-dot-event.fc-event-mirror,
+.fullcalendar-custom .fc-daygrid-dot-event:hover { color: #8DC63F !important; }
+.fullcalendar-custom .fc-daygrid-block-event .fc-event-time:hover,
+.fullcalendar-custom .fc-daygrid-block-event .fc-event-title:hover { color: #8DC63F !important; }
+.fullcalendar-custom.fc .fc-day-today .fc-col-header-cell-cushion {
+    color: #8DC63F !important;
+    background-color: rgba(141,198,63,0.12) !important;
+}
+.fullcalendar-custom.fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+    background-color: #8DC63F !important;
+}
+.fullcalendar-custom.fc .fc-button.fc-button-active,
+.fullcalendar-custom.fc .fc-button.fc-button-primary:not(:disabled).fc-button-active,
+.fullcalendar-custom.fc .fc-button.fc-button-primary:not(:disabled):active {
+    background-color: #8DC63F !important;
+    border-color: #8DC63F !important;
+}
+
+/* Flatpickr date picker */
+.flatpickr-calendar .flatpickr-next-month:hover,
+.flatpickr-calendar .flatpickr-prev-month:hover {
+    color: #8DC63F !important;
+    background-color: rgba(141,198,63,0.12) !important;
+}
+.flatpickr-calendar .flatpickr-day:focus,
+.flatpickr-calendar .flatpickr-day:hover {
+    color: #8DC63F !important;
+    background-color: rgba(141,198,63,0.12) !important;
+}
+.flatpickr-calendar .flatpickr-day.startRange,
+.flatpickr-calendar .flatpickr-day.startRange:focus,
+.flatpickr-calendar .flatpickr-day.startRange:hover,
+.flatpickr-calendar .flatpickr-day.selected,
+.flatpickr-calendar .flatpickr-day.selected.prevMonthDay,
+.flatpickr-calendar .flatpickr-day.selected.prevMonthDay:focus,
+.flatpickr-calendar .flatpickr-day.selected.prevMonthDay:hover,
+.flatpickr-calendar .flatpickr-day.today {
+    background-color: #8DC63F !important;
+    border-color: #8DC63F !important;
+    color: #fff !important;
+}
+.flatpickr-calendar .flatpickr-day.inRange {
+    background-color: rgba(141,198,63,0.35) !important;
+    box-shadow: -0.35rem 0 0 rgba(141,198,63,0.35), 0.35rem 0 0 rgba(141,198,63,0.35) !important;
+}
+.flatpickr-calendar .numInputWrapper span.arrowDown,
+.flatpickr-calendar .numInputWrapper span.arrowUp { color: #8DC63F !important; }
+
+/* Range slider */
+.range-slider-custom .irs-bar { background-color: #8DC63F !important; }
+.range-slider-custom .irs-handle { border-color: #8DC63F !important; }
+
+/* Fancybox / hs-form-search */
+.hs-form-search-menu-content a { color: #8DC63F !important; }
+
+/* Page item non-active hover */
+.page-item:not(.active) .page-link:hover { color: #8DC63F !important; }
+
+/* Stat number highlight in theme */
+.display-4.text-primary,
+.h1.text-primary,
+.h2.text-primary,
+.h3.text-primary,
+.h4.text-primary,
+h1.text-primary,
+h2.text-primary,
+h3.text-primary,
+h4.text-primary { color: #8DC63F !important; }
+
+/* ── BanaEats yellow accent for secondary highlights ─────── */
+.text-warning { color: #D4BB00 !important; }
+.bg-warning    { background-color: #F5D800 !important; color: #1A1A1A !important; }
+.bg-primary    { background-color: #8DC63F !important; color: #fff !important; }
+.bg-success    { background-color: #8DC63F !important; color: #fff !important; }
+
+/* ── Sidebar logo wrapper position fix ───────────────────── */
+.navbar__brand-wrapper { position: relative; overflow: hidden; }

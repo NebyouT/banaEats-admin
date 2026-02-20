@@ -19,6 +19,7 @@
     <link rel="icon" type="image/x-icon" href="{{ dynamicStorage('storage/app/public/business/' . $logo ?? '') }}">
     <!-- Font -->
     <link href="{{dynamicAsset('public/assets/admin/css/fonts.css')}}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- CSS Implementing Plugins -->
     <link rel="stylesheet" href="{{ dynamicAsset('public/assets/admin/css/vendor.min.css') }}">
     <link rel="stylesheet" href="{{ dynamicAsset('public/assets/admin/vendor/icon-set/style.css') }}">
@@ -31,6 +32,7 @@
     <link rel="stylesheet" href="{{ dynamicAsset('public/assets/admin/css/emojionearea.min.css') }}">
     <link rel="stylesheet" href="{{ dynamicAsset('public/assets/admin/css/theme.minc619.css?v=1.0') }}">
     <link rel="stylesheet" href="{{ dynamicAsset('public/assets/admin/css/style.css') }}">
+    <link rel="stylesheet" href="{{ dynamicAsset('public/assets/admin/css/bana-brand.css') }}">
     <link rel="stylesheet" href="{{dynamicAsset('public/assets/admin/intltelinput/css/intlTelInput.css')}}">
     @stack('css_or_js')
     <link rel="stylesheet" href="{{ dynamicAsset('public/assets/admin/css/toastr.css') }}">

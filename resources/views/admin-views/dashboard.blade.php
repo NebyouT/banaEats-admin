@@ -6,144 +6,141 @@
 @endpush
 
 @section('content')
-    <div class="content container-fluid">
-        @if(auth('admin')->user()->role_id == 1)
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="d-flex flex-wrap justify-content-between align-items-center">
-                <div class="page--header-title">
-                    <h1 class="page-header-title">{{translate('messages.welcome')}}, {{auth('admin')->user()->f_name}}.</h1>
-                    <p class="page-header-text">{{translate('messages.Hello,_here_you_can_manage_your_orders_by_zone.')}}</p>
-                </div>
-                @php($zones = \App\Models\Zone::get(['id','name']))
-                <div class="page--header-select">
-                    <select name="zone_id" class="form-control js-select2-custom fetch-data-zone-wise">
-                        <option value="all">{{translate('all_zones')}}</option>
-                        @foreach($zones as $zone)
-                            <option
-                                value="{{$zone['id']}}" {{$params['zone_id'] == $zone['id']?'selected':''}}>
-                                {{$zone['name']}}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+<div class="content container-fluid">
+    @if(auth('admin')->user()->role_id == 1)
+
+    {{-- ── Page Header ── --}}
+    <div class="page-header">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <h1 class="page-header-title">
+                    {{ translate('messages.welcome') }}, {{ auth('admin')->user()->f_name }}
+                    <span style="color:#8DC63F;">👋</span>
+                </h1>
+                <p class="page-header-text">{{ translate('messages.Hello,_here_you_can_manage_your_orders_by_zone.') }}</p>
+            </div>
+            @php($zones = \App\Models\Zone::get(['id','name']))
+            <div class="d-flex align-items-center gap-2">
+                <span style="font-size:12px;color:#888;font-weight:600;white-space:nowrap;">{{ translate('Filter by zone') }}:</span>
+                <select name="zone_id" class="bana-period-select fetch-data-zone-wise" style="min-width:160px;">
+                    <option value="all">{{ translate('all_zones') }}</option>
+                    @foreach($zones as $zone)
+                        <option value="{{ $zone['id'] }}" {{ $params['zone_id'] == $zone['id'] ? 'selected' : '' }}>
+                            {{ $zone['name'] }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </div>
-        <!-- End Page Header -->
-
-
-        @if($zones->first()?->name == 'Demo Zone' && $zones->count() <= 1)
-            <div class="card mt-3 mb-3">
-                <div class="card-body demo-zone-section justify-content-center">
-                    <h3 class="text-center">{{translate('All Data From demo Zone')}}</h3>
-                    <p class="text-center">{{translate('In this page you see all the demo zone data. To show actual data setup your Zones, Business Setting & complete orders')}}</p>
-                    <a href="{{ route('admin.zone.home') }}" class="text-center btn btn--primary">{{translate('Create Zone')}}</a>
-                </div>
-            </div>
-        @endif
-
-        <!-- Stats -->
-        <div class="card mb-3">
-            <div class="card-body pt-0">
-                <div id="order_stats_top">
-                    @include('admin-views.partials._order-statics',['data'=>$data])
-                </div>
-                <div class="row g-2 mt-2" id="order_stats">
-                    @include('admin-views.partials._dashboard-order-stats',['data'=>$data])
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-12">
-                <!-- Card -->
-                <div class="card h-100" id="monthly-earning-graph">
-                    @include('admin-views.partials._monthly-earning-graph',['total_sell'=>$total_sell,'total_subs' =>$total_subs,'commission'=>$commission])
-                </div>
-                <!-- End Card -->
-            </div>
-        </div>
-        <!-- End Row -->
-
-        <div class="row g-2 mt-2">
-            <div class="col-lg-6">
-                <!-- Card -->
-                <div class="card h-100">
-                    <!-- Header -->
-                    <div class="card-header align-items-center">
-                        <h5 class="d-flex gap-2 align-items-center">
-                            <img src="{{dynamicAsset('/public/assets/admin/img/dashboard/statistics.png')}}" alt="dashboard" class="card-header-icon">
-                            <span>{{translate('user_statistics')}}</span>
-                        </h5>
-                        <div id="stat_zone">
-                            @include('admin-views.partials._zone-change',['data'=>$data])
-                        </div>
-                    </div>
-                    <!-- End Header -->
-                    <!-- Body -->
-
-                    <div id='user-statistic-donut-chart'>
-                        @include('admin-views.partials._user-overview-chart',['data'=>$data])
-                    </div>
-
-                    <!-- End Body -->
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <!-- Card -->
-                <div class="card h-100" id="popular-restaurants-view">
-                    @include('admin-views.partials._popular-restaurants',['popular'=>$data['popular']])
-                </div>
-                <!-- End Card -->
-            </div>
-
-            <div class="col-lg-6">
-                <!-- Card -->
-                <div class="card h-100" id="top-deliveryman-view">
-                    @include('admin-views.partials._top-deliveryman',['top_deliveryman'=>$data['top_deliveryman']])
-                </div>
-                <!-- End Card -->
-            </div>
-
-            <div class="col-lg-6">
-                <!-- Card -->
-                <div class="card h-100" id="top-restaurants-view">
-                    @include('admin-views.partials._top-restaurants',['top_restaurants'=>$data['top_restaurants']])
-                </div>
-                <!-- End Card -->
-            </div>
-
-            <div class="col-lg-6">
-                <!-- Card -->
-                <div class="card h-100" id="top-rated-foods-view">
-                    @include('admin-views.partials._top-rated-foods',['top_rated_foods'=>$data['top_rated_foods']])
-                </div>
-                <!-- End Card -->
-            </div>
-
-
-            <div class="col-lg-6">
-                <!-- Card -->
-                <div class="card h-100" id="top-selling-foods-view">
-                    @include('admin-views.partials._top-selling-foods',['top_sell'=>$data['top_sell']])
-                </div>
-                <!-- End Card -->
-            </div>
-        </div>
-        @else
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="row align-items-center">
-                <div class="col-sm mb-2 mb-sm-0">
-                    <h1 class="page-header-title">{{translate('messages.welcome')}}, {{auth('admin')->user()->f_name}}.</h1>
-                    <p class="page-header-text">{{translate('messages.Hello,_here_you_can_manage_your_restaurants.')}}</p>
-                </div>
-            </div>
-        </div>
-        <!-- End Page Header -->
-        @endif
     </div>
+
+    {{-- ── Demo zone notice ── --}}
+    @if($zones->first()?->name == 'Demo Zone' && $zones->count() <= 1)
+    <div class="card mb-4" style="border-left:4px solid #F5D800 !important;">
+        <div class="card-body d-flex align-items-center justify-content-between flex-wrap gap-3 py-3">
+            <div>
+                <div style="font-size:14px;font-weight:700;color:#1A1A1A;">{{ translate('All Data From demo Zone') }}</div>
+                <div style="font-size:12px;color:#888;margin-top:3px;">{{ translate('In this page you see all the demo zone data. To show actual data setup your Zones, Business Setting & complete orders') }}</div>
+            </div>
+            <a href="{{ route('admin.zone.home') }}" class="btn btn--primary btn-sm" style="white-space:nowrap;">
+                <i class="tio-add mr-1"></i>{{ translate('Create Zone') }}
+            </a>
+        </div>
+    </div>
+    @endif
+
+    {{-- ── Order Statistics ── --}}
+    <div class="card mb-4">
+        <div class="card-body">
+            <div id="order_stats_top">
+                @include('admin-views.partials._order-statics', ['data' => $data])
+            </div>
+            <div class="row g-2 mt-3" id="order_stats">
+                @include('admin-views.partials._dashboard-order-stats', ['data' => $data])
+            </div>
+        </div>
+    </div>
+
+    {{-- ── Monthly Earnings Chart ── --}}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card h-100" id="monthly-earning-graph">
+                @include('admin-views.partials._monthly-earning-graph', [
+                    'total_sell' => $total_sell,
+                    'total_subs' => $total_subs,
+                    'commission' => $commission
+                ])
+            </div>
+        </div>
+    </div>
+
+    {{-- ── Analytics Grid ── --}}
+    <div class="row g-3">
+        {{-- User Statistics --}}
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <div class="bana-section-title">
+                        <span class="bana-section-title-dot"></span>
+                        {{ translate('user_statistics') }}
+                    </div>
+                    <div id="stat_zone">
+                        @include('admin-views.partials._zone-change', ['data' => $data])
+                    </div>
+                </div>
+                <div id="user-statistic-donut-chart">
+                    @include('admin-views.partials._user-overview-chart', ['data' => $data])
+                </div>
+            </div>
+        </div>
+
+        {{-- Popular Restaurants --}}
+        <div class="col-lg-6">
+            <div class="card h-100" id="popular-restaurants-view">
+                @include('admin-views.partials._popular-restaurants', ['popular' => $data['popular']])
+            </div>
+        </div>
+
+        {{-- Top Delivery Men --}}
+        <div class="col-lg-6">
+            <div class="card h-100" id="top-deliveryman-view">
+                @include('admin-views.partials._top-deliveryman', ['top_deliveryman' => $data['top_deliveryman']])
+            </div>
+        </div>
+
+        {{-- Top Restaurants --}}
+        <div class="col-lg-6">
+            <div class="card h-100" id="top-restaurants-view">
+                @include('admin-views.partials._top-restaurants', ['top_restaurants' => $data['top_restaurants']])
+            </div>
+        </div>
+
+        {{-- Top Rated Foods --}}
+        <div class="col-lg-6">
+            <div class="card h-100" id="top-rated-foods-view">
+                @include('admin-views.partials._top-rated-foods', ['top_rated_foods' => $data['top_rated_foods']])
+            </div>
+        </div>
+
+        {{-- Top Selling Foods --}}
+        <div class="col-lg-6">
+            <div class="card h-100" id="top-selling-foods-view">
+                @include('admin-views.partials._top-selling-foods', ['top_sell' => $data['top_sell']])
+            </div>
+        </div>
+    </div>
+
+    @else
+    {{-- Non-admin welcome --}}
+    <div class="page-header">
+        <h1 class="page-header-title">
+            {{ translate('messages.welcome') }}, {{ auth('admin')->user()->f_name }}
+            <span style="color:#8DC63F;">👋</span>
+        </h1>
+        <p class="page-header-text">{{ translate('messages.Hello,_here_you_can_manage_your_restaurants.') }}</p>
+    </div>
+    @endif
+</div>
 @endsection
 
 @push('script')
@@ -255,6 +252,7 @@ loadchart();
                     text: '{{ \App\CentralLogics\Helpers::currency_symbol() }}. ({{ \App\CentralLogics\Helpers::currency_code() }})'
                 }
             },
+            colors: ['#8DC63F', '#F5D800', '#04BB7B'],
             fill: {
                 opacity: 1
             },

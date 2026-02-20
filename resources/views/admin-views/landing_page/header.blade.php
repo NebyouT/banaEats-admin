@@ -3,54 +3,44 @@
 @section('content')
 
     <div class="content container-fluid">
-        <div class="page-header">
-            <div class="d-flex flex-wrap justify-content-between align-items-start">
-                <h1 class="page-header-title text-capitalize">
-                    <div class="card-header-icon d-inline-flex mr-2 img">
-                        <img src="{{ dynamicAsset('/public/assets/admin/img/landing-page.png') }}" class="mw-26px" alt="public">
-                    </div>
-                    <span>
-                        {{ translate('Admin_Landing_Page') }}
-                    </span>
+        <div class="page-header" style="padding-bottom:0;">
+            <div class="lp-page-header">
+                <h1 class="lp-page-title">
+                    <span class="lp-page-title-icon"><i class="tio-globe"></i></span>
+                    {{ translate('Landing_Page_Settings') }}
                 </h1>
-                <div class="text--primary-2 py-1 d-flex flex-wrap align-items-center" type="button" data-toggle="modal" data-target="#how-it-works">
-                    <strong class="mr-2">{{translate('See_how_it_works!')}}</strong>
-                    <div>
-                        <i class="tio-info-outined"></i>
-                    </div>
+                <div class="d-flex align-items-center gap-2">
+                    <button type="button" class="lp-btn-reset" data-toggle="modal" data-target="#how-it-works" style="display:inline-flex;align-items:center;gap:6px;">
+                        <i class="tio-info-outlined"></i> {{ translate('How_it_works') }}
+                    </button>
+                    <a href="{{ url('/') }}" target="_blank" class="lp-visit-btn">
+                        <i class="tio-open-in-new"></i> {{ translate('Visit_Site') }}
+                    </a>
                 </div>
             </div>
-            <div class="js-nav-scroller hs-nav-scroller-horizontal">
-                @include('admin-views.landing_page.top_menu.admin_landing_menu')
-            </div>
+            @include('admin-views.landing_page.top_menu.admin_landing_menu')
         </div>
         @php($default_lang = str_replace('_', '-', app()->getLocale()))
         @if($language)
-            <ul class="nav nav-tabs mb-4 border-0">
+            <ul class="nav lp-lang-tabs">
                 <li class="nav-item">
-                    <a class="nav-link lang_link active"
-                    href="#"
-                    id="default-link">{{translate('messages.default')}}</a>
+                    <a class="nav-link lang_link active" href="#" id="default-link">{{ translate('messages.default') }}</a>
                 </li>
                 @foreach (json_decode($language) as $lang)
                     <li class="nav-item">
-                        <a class="nav-link lang_link"
-                            href="#"
-                            id="{{ $lang }}-link">{{ \App\CentralLogics\Helpers::get_language_name($lang) . '(' . strtoupper($lang) . ')' }}</a>
+                        <a class="nav-link lang_link" href="#" id="{{ $lang }}-link">
+                            {{ \App\CentralLogics\Helpers::get_language_name($lang) . ' (' . strtoupper($lang) . ')' }}
+                        </a>
                     </li>
                 @endforeach
             </ul>
         @endif
 
-        <div class="d-flex justify-content-between __gap-12px mb-3">
-            <h5 class="card-title d-flex align-items-center">
-                <span class="card-header-icon mr-2">
-                    <img src="{{dynamicAsset('public/assets/admin/img/react_header.png')}}" alt="" class="mw-100">
-                </span>
-                {{translate('Header_Content_Section')}}
-            </h5>
+        <div class="lp-section-label">
+            <span class="lp-section-label-dot"></span>
+            <span class="lp-section-label-text">{{ translate('Header_Content_Section') }}</span>
         </div>
-        <div class="card">
+        <div class="card lp-card">
             <form action="{{ route('admin.landing_page.settings', 'header-data') }}" method="post">
                 @csrf
                 <div class="card-body">
@@ -238,23 +228,18 @@
                             </div>
                         </div>
 
-                    <div class="btn--container justify-content-end mt-3">
-                        <button type="reset" class="btn btn--reset">{{translate('Reset')}}</button>
-                        <button type="submit"   class="btn btn--primary">{{translate('Save')}}</button>
+                    <div class="lp-form-actions">
+                        <button type="reset" class="lp-btn-reset">{{ translate('Reset') }}</button>
+                        <button type="submit" class="lp-btn-save">{{ translate('Save') }}</button>
                     </div>
                 </div>
             </form>
         </div>
-        <br>
-        <div class="d-flex justify-content-between __gap-12px mb-3">
-            <h5 class="card-title d-flex align-items-center">
-                <span class="card-header-icon mr-2">
-                    <img src="{{dynamicAsset('public/assets/admin/img/react_header.png')}}" alt="" class="mw-100">
-                </span>
-                {{translate('Image_Content')}}
-            </h5>
+        <div class="lp-section-label mt-4">
+            <span class="lp-section-label-dot"></span>
+            <span class="lp-section-label-text">{{ translate('Image_Content') }}</span>
         </div>
-        <div class="card">
+        <div class="card lp-card">
             <form action="{{ route('admin.landing_page.settings', 'header-data-images') }}" method="post" enctype="multipart/form-data">
                 @csrf
             <div class="card-body">
@@ -312,9 +297,9 @@
                     </div>
                 </div>
 
-                <div class="btn--container justify-content-end mt-3">
-                    <button type="reset" class="btn btn--reset">{{translate('Reset')}}</button>
-                    <button type="submit"   class="btn btn--primary">{{translate('Save')}}</button>
+                <div class="lp-form-actions">
+                    <button type="reset" class="lp-btn-reset">{{ translate('Reset') }}</button>
+                    <button type="submit" class="lp-btn-save">{{ translate('Save') }}</button>
                 </div>
             </div>
             </form>
@@ -340,16 +325,11 @@
 
 
         </div>
-        <br>
-        <div class="d-flex justify-content-between __gap-12px mb-3">
-            <h5 class="card-title d-flex align-items-center">
-                <span class="card-header-icon mr-2">
-                    <img src="{{dynamicAsset('public/assets/admin/img/react_header.png')}}" alt="" class="mw-100">
-                </span>
-                {{translate('Floating_Icon_Content')}}
-            </h5>
+        <div class="lp-section-label mt-4">
+            <span class="lp-section-label-dot"></span>
+            <span class="lp-section-label-text">{{ translate('Floating_Icon_Content') }}</span>
         </div>
-        <div class="card">
+        <div class="card lp-card">
             <div class="card-body">
                 <form action="{{ route('admin.landing_page.settings', 'header-data-floating-icon') }}" method="post">
                     @csrf
@@ -380,9 +360,9 @@
                         <input type="number" min="0"  id="header_floating_total_reviews" name="header_floating_total_reviews"  value="{{ $header_floating_content['header_floating_total_reviews'] ?? null }}"  class="form-control" placeholder="{{translate('messages.Ex:_34')}}">
                     </div>
                 </div>
-                <div class="btn--container justify-content-end mt-3">
-                    <button type="reset" class="btn btn--reset">{{translate('Reset')}}</button>
-                    <button type="submit"   class="btn btn--primary">{{translate('Save')}}</button>
+                <div class="lp-form-actions">
+                    <button type="reset" class="lp-btn-reset">{{ translate('Reset') }}</button>
+                    <button type="submit" class="lp-btn-save">{{ translate('Save') }}</button>
                 </div>
                 </form>
             </div>

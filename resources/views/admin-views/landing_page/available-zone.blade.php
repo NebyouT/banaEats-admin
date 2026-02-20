@@ -4,34 +4,28 @@
 
 @section('content')
 <div class="content container-fluid">
-    <div class="page-header pb-0">
-        <div class="d-flex flex-wrap justify-content-between">
-            <h1 class="page-header-title">
-                <span class="page-header-icon">
-                    <img src="{{dynamicAsset('public/assets/admin/img/landing-page.png')}}" class="w--20" alt="">
-                </span>
-                <span>
-                    {{ translate('messages.admin_landing_pages') }}
-                </span>
+    <div class="page-header" style="padding-bottom:0;">
+        <div class="lp-page-header">
+            <h1 class="lp-page-title">
+                <span class="lp-page-title-icon"><i class="tio-globe"></i></span>
+                {{ translate('Landing_Page_Settings') }}
             </h1>
-            <div class="text--primary-2 py-1 d-flex flex-wrap align-items-center" type="button" data-toggle="modal" data-target="#how-it-works">
-                <strong class="mr-2">{{translate('See_how_it_works!')}}</strong>
-                <div>
-                    <i class="tio-info-outined"></i>
-                </div>
+            <div class="d-flex align-items-center gap-2">
+                <button type="button" class="lp-btn-reset" data-toggle="modal" data-target="#how-it-works" style="display:inline-flex;align-items:center;gap:6px;">
+                    <i class="tio-info-outlined"></i> {{ translate('How_it_works') }}
+                </button>
+                <a href="{{ url('/') }}" target="_blank" class="lp-visit-btn">
+                    <i class="tio-open-in-new"></i> {{ translate('Visit_Site') }}
+                </a>
             </div>
         </div>
-    </div>
-    <div class="mb-4 mt-2">
-        <div class="js-nav-scroller hs-nav-scroller-horizontal">
-            @include('admin-views.landing_page.top_menu.admin_landing_menu')
-        </div>
+        @include('admin-views.landing_page.top_menu.admin_landing_menu')
     </div>
 
 
     <form id="zone-setup-form" action="{{ route('admin.landing_page.availableZoneUpdate') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="card mb-3">
+        <div class="card lp-card mb-3">
             <div class="card-body">
                 <div class="row g-3">
                     <div class="col-sm-6">
@@ -217,9 +211,9 @@
                 </div>
             </div>
             <div class="col-12">
-                <div class="btn--container justify-content-end">
-                    <button class="btn btn--reset " type="reset">{{translate('reset')}}</button>
-                    <button class="btn btn--primary" type="submit">{{translate('Save Information')}}</button>
+                <div class="lp-form-actions">
+                    <button class="lp-btn-reset" type="reset">{{ translate('reset') }}</button>
+                    <button class="lp-btn-save" type="submit">{{ translate('Save Information') }}</button>
                 </div>
             </div>
         </div>

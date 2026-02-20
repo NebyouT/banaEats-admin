@@ -7330,9 +7330,7 @@
   'Set how many times AI can generate data from an image upload ' => 'Set how many times AI can generate data from an image upload ',
   'Set how many times  AI can generate data for each element of the restaurant panel or app' => 'Set how many times  AI can generate data for each element of the restaurant panel or app',
   'duplicate_data_on_column' => 'Duplicate data on column',
-
   'The upload excel field is required.' => 'The upload excel field is required.',
-
   'custom_pages' => 'Custom pages',
   'add_custom_page' => 'Add custom page',
   'slug' => 'Slug',
@@ -7366,5 +7364,20 @@
   'change_image' => 'Change image',
   'update_page' => 'Update page',
   'custom_page_updated_successfully' => 'Custom page updated successfully',
-
+  'Search anything...' => 'Search anything...',
+  'Pending Orders' => 'Pending Orders',
+  'Enter your credentials to access the admin panel' => 'Enter your credentials to access the admin panel',
+  'Landing_Page_Settings' => 'Landing Page Settings',
+  'How_it_works' => 'How it works',
+  'Visit_Site' => 'Visit Site',
+  'How it works' => 'How it works',
+  'If_you_want_to_disable_or_turn_off_any_section_please_leave_that_section_empty_don\'t_make_any_changes_there!' => 'If you want to disable or turn off any section please leave that section empty don t make any changes there!',
+  'Let\'s_See_The_Changes!' => 'Let s See The Changes!',
+  'Learn More' => 'Learn More',
+  'Users' => 'Users',
+  'About Us' => 'About Us',
+  'Our Platform' => 'Our Platform',
+  'Why Choose Us' => 'Why Choose Us',
+  'Earn Money' => 'Earn Money',
+  'Subscribe' => 'Subscribe',
 );

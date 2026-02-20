@@ -17,212 +17,250 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{asset($icon ? 'storage/app/public/business/'.$icon : 'public/favicon.ico')}}">
 
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&amp;display=swap" rel="stylesheet">
-    <!-- CSS Implementing Plugins -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{dynamicAsset('public/assets/admin')}}/css/vendor.min.css">
     <link rel="stylesheet" href="{{dynamicAsset('public/assets/admin')}}/vendor/icon-set/style.css">
-    <!-- CSS Front Template -->
     <link rel="stylesheet" href="{{dynamicAsset('public/assets/admin')}}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{dynamicAsset('public/assets/admin')}}/css/theme.minc619.css?v=1.0">
     <link rel="stylesheet" href="{{dynamicAsset('public/assets/admin')}}/css/style.css">
     <link rel="stylesheet" href="{{dynamicAsset('public/assets/admin')}}/css/toastr.css">
+    <style>
+        *{font-family:'Inter',sans-serif;box-sizing:border-box}
+        body{margin:0;padding:0;background:#f5f5f5}
+        .bana-login-wrap{display:flex;min-height:100vh}
+        .bana-brand-panel{width:45%;background:#1A1A1A;display:flex;flex-direction:column;justify-content:space-between;padding:48px 56px;position:relative;overflow:hidden}
+        .bana-brand-panel::before{content:'';position:absolute;top:-120px;right:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(245,216,0,.12) 0%,transparent 70%);pointer-events:none}
+        .bana-brand-panel::after{content:'';position:absolute;bottom:-80px;left:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(141,198,63,.10) 0%,transparent 70%);pointer-events:none}
+        .bana-brand-logo{display:flex;align-items:center;gap:14px;text-decoration:none}
+        .bana-brand-logo img{height:48px;width:auto;object-fit:contain;filter:brightness(0) invert(1)}
+        .bana-brand-logo-text{font-size:22px;font-weight:800;color:#F5D800;letter-spacing:-.5px}
+        .bana-brand-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 0 40px;position:relative;z-index:1}
+        .bana-brand-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(245,216,0,.12);border:1px solid rgba(245,216,0,.25);color:#F5D800;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:100px;width:fit-content;margin-bottom:28px}
+        .bana-brand-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#F5D800}
+        .bana-brand-headline{font-size:42px;font-weight:800;line-height:1.15;color:#fff;margin:0 0 20px;letter-spacing:-1px}
+        .bana-brand-headline span{color:#F5D800}
+        .bana-brand-desc{font-size:15px;color:rgba(255,255,255,.55);line-height:1.7;max-width:340px;margin:0 0 40px}
+        .bana-stats-row{display:flex;gap:32px}
+        .bana-stat{display:flex;flex-direction:column}
+        .bana-stat-num{font-size:26px;font-weight:800;color:#8DC63F;line-height:1}
+        .bana-stat-label{font-size:11px;color:rgba(255,255,255,.45);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
+        .bana-brand-footer p{font-size:12px;color:rgba(255,255,255,.3);margin:0}
+        .bana-form-panel{flex:1;background:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:48px 40px;position:relative}
+        .bana-version-badge{position:absolute;top:24px;right:24px;background:rgba(141,198,63,.10);color:#5a8a1a;font-size:11px;font-weight:600;padding:4px 10px;border-radius:100px;border:1px solid rgba(141,198,63,.25)}
+        .bana-form-inner{width:100%;max-width:400px}
+        .bana-form-header{margin-bottom:36px}
+        .bana-form-header h1{font-size:28px;font-weight:800;color:#1A1A1A;margin:0 0 8px;letter-spacing:-.5px}
+        .bana-form-header p{font-size:14px;color:#888;margin:0}
+        .bana-form-group{margin-bottom:20px}
+        .bana-form-group label{display:block;font-size:13px;font-weight:600;color:#333;margin-bottom:8px}
+        .bana-input-wrap{position:relative}
+        .bana-input-wrap .bana-input-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#aaa;font-size:16px;pointer-events:none}
+        .bana-input-wrap input{width:100%;height:50px;padding:0 44px 0 42px;border:1.5px solid #e8e8e8;border-radius:10px;font-size:14px;color:#1A1A1A;background:#fafafa;transition:border-color .2s,box-shadow .2s,background .2s;outline:none}
+        .bana-input-wrap input:focus{border-color:#8DC63F;background:#fff;box-shadow:0 0 0 3px rgba(141,198,63,.12)}
+        .bana-input-wrap .bana-pass-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:#aaa;cursor:pointer;font-size:16px;padding:0}
+        .bana-input-wrap .bana-pass-toggle:hover{color:#8DC63F}
+        .bana-form-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+        .bana-remember{display:flex;align-items:center;gap:8px;font-size:13px;color:#555;cursor:pointer}
+        .bana-remember input[type=checkbox]{width:16px;height:16px;accent-color:#8DC63F;cursor:pointer}
+        .bana-forgot{font-size:13px;color:#8DC63F;font-weight:600;text-decoration:none;cursor:pointer;background:none;border:none;padding:0}
+        .bana-forgot:hover{color:#6FA82E;text-decoration:underline}
+        .bana-captcha-wrap{display:flex;gap:10px;margin-bottom:20px;align-items:stretch}
+        .bana-captcha-wrap input{flex:1;height:46px;padding:0 14px;border:1.5px solid #e8e8e8;border-radius:10px;font-size:14px;background:#fafafa;outline:none}
+        .bana-captcha-wrap input:focus{border-color:#8DC63F;box-shadow:0 0 0 3px rgba(141,198,63,.12)}
+        .bana-captcha-img-wrap{display:flex;align-items:center;gap:6px;background:#f5f5f5;border:1.5px solid #e8e8e8;border-radius:10px;padding:4px 10px}
+        .bana-captcha-img-wrap img{height:36px;border-radius:6px}
+        .bana-captcha-img-wrap .capcha-spin{color:#8DC63F;cursor:pointer;font-size:18px;padding:0}
+        .bana-btn-submit{width:100%;height:52px;background:#8DC63F;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s,transform .1s,box-shadow .2s;letter-spacing:.02em;box-shadow:0 4px 16px rgba(141,198,63,.30)}
+        .bana-btn-submit:hover{background:#6FA82E;box-shadow:0 6px 20px rgba(141,198,63,.40);transform:translateY(-1px)}
+        .bana-btn-submit:active{transform:translateY(0)}
+        .bana-switch-link{text-align:center;margin-top:20px;font-size:13px;color:#888}
+        .bana-switch-link a{color:#8DC63F;font-weight:600;text-decoration:none}
+        .bana-switch-link a:hover{text-decoration:underline}
+        .bana-demo-box{margin-top:24px;background:#f9fdf2;border:1px solid rgba(141,198,63,.25);border-radius:10px;padding:14px 16px}
+        .bana-demo-box .bana-demo-row{display:flex;justify-content:space-between;align-items:center}
+        .bana-demo-box span{font-size:12px;color:#555;display:block}
+        .bana-demo-box strong{color:#1A1A1A}
+        .bana-demo-copy{background:#8DC63F;color:#fff;border:none;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;flex-shrink:0}
+        .bana-demo-copy:hover{background:#6FA82E}
+        @media(max-width:991px){.bana-brand-panel{width:40%;padding:40px 36px}.bana-brand-headline{font-size:32px}}
+        @media(max-width:767px){.bana-brand-panel{display:none}.bana-form-panel{padding:40px 24px}}
+    </style>
 </head>
 
 <body>
-<!-- ========== MAIN CONTENT ========== -->
-<main id="content" role="main" class="main auth-bg">
-    <!-- Content -->
-    <div class="d-flex flex-wrap align-items-center justify-content-between">
-        <div class="auth-content">
-            <div class="content">
-                <h2 class="title text-uppercase">{{translate('messages.welcome_to')}} {{ $app_name??'STACKFOOD' }}</h2>
-                <p>
-                    {{translate('Manage_your_app_&_website_easily')}}
+<main id="content" role="main">
+    @php($systemlogo=\App\Models\BusinessSetting::where(['key'=>'logo'])->first())
+    @php($role = $role ?? null)
+    @php($recaptcha = \App\CentralLogics\Helpers::get_business_settings('recaptcha'))
+
+    <div class="bana-login-wrap">
+
+        {{-- ── Left brand panel ── --}}
+        <div class="bana-brand-panel">
+            <a class="bana-brand-logo" href="javascript:">
+                <img src="{{ \App\CentralLogics\Helpers::get_full_url('business',$systemlogo?->value,$systemlogo?->storage[0]?->value ?? 'public', 'authfav') }}"
+                     onerror="this.src='{{ dynamicAsset('/public/assets/admin/img/auth-fav.png') }}'" alt="logo">
+                <span class="bana-brand-logo-text">{{ $app_name ?? 'BanaEats' }}</span>
+            </a>
+
+            <div class="bana-brand-body">
+                <div class="bana-brand-tag">Admin Control Center</div>
+                <h1 class="bana-brand-headline">
+                    Deliver <span>faster.</span><br>
+                    Manage <span>smarter.</span>
+                </h1>
+                <p class="bana-brand-desc">
+                    Your all-in-one operations hub. Monitor orders, manage restaurants, track delivery partners, and grow your business — all from one place.
                 </p>
+                <div class="bana-stats-row">
+                    <div class="bana-stat">
+                        <span class="bana-stat-num">99.9%</span>
+                        <span class="bana-stat-label">Uptime</span>
+                    </div>
+                    <div class="bana-stat">
+                        <span class="bana-stat-num">Real-time</span>
+                        <span class="bana-stat-label">Order tracking</span>
+                    </div>
+                    <div class="bana-stat">
+                        <span class="bana-stat-num">24/7</span>
+                        <span class="bana-stat-label">Operations</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bana-brand-footer">
+                <p>&copy; {{ date('Y') }} {{ $app_name ?? 'BanaEats' }}. All rights reserved.</p>
             </div>
         </div>
-        <div class="auth-wrapper">
-            <div class="auth-wrapper-body auth-form-appear">
-                @php($systemlogo=\App\Models\BusinessSetting::where(['key'=>'logo'])->first())
-                @php($role = $role ?? null )
-                <a class="auth-logo mb-5" href="javascript:">
-                    <img class="z-index-2 onerror-image"
-                    src="{{ \App\CentralLogics\Helpers::get_full_url('business',$systemlogo?->value,$systemlogo?->storage[0]?->value ?? 'public', 'authfav') }}"
-                    data-onerror-image="{{ dynamicAsset('/public/assets/admin/img/auth-fav.png') }}" alt="image">
-                </a>
-                <div class="text-center">
-                    <div class="auth-header mb-5">
-                        @if ($role == 'vendor')
-                        <h2 class="signin-txt">{{ translate('messages.Signin_To_Your_Restaurant_Panel')}}</h2>
-                        @else
 
-                        <h2 class="signin-txt">{{ translate('messages.Signin_To_Your_Panel')}}</h2>
+        {{-- ── Right form panel ── --}}
+        <div class="bana-form-panel">
+            <span class="bana-version-badge">v{{env('SOFTWARE_VERSION')}}</span>
+
+            <div class="bana-form-inner">
+                <div class="bana-form-header">
+                    @if ($role == 'vendor')
+                        <h1>{{ translate('messages.Signin_To_Your_Restaurant_Panel') }}</h1>
+                        <p>{{ translate('Enter your credentials to access the restaurant panel') }}</p>
+                    @else
+                        <h1>{{ translate('messages.Signin_To_Your_Panel') }}</h1>
+                        <p>{{ translate('Enter your credentials to access the admin panel') }}</p>
+                    @endif
+                </div>
+
+                <form action="{{route('login_post')}}" method="post" id="form-id">
+                    @csrf
+                    <input type="hidden" name="role" value="{{ $role }}">
+
+                    {{-- Email --}}
+                    <div class="bana-form-group">
+                        <label for="signinSrEmail">{{ translate('messages.your_email') }}</label>
+                        <div class="bana-input-wrap">
+                            <i class="tio-email-outlined bana-input-icon"></i>
+                            <input type="email" id="signinSrEmail" name="email"
+                                   value="{{ $email ?? '' }}" required
+                                   placeholder="you@example.com" autocomplete="email">
+                        </div>
+                    </div>
+
+                    {{-- Password --}}
+                    <div class="bana-form-group">
+                        <label for="signupSrPassword">{{ translate('messages.password') }}</label>
+                        <div class="bana-input-wrap">
+                            <i class="tio-lock-outlined bana-input-icon"></i>
+                            <input type="password" id="signupSrPassword" name="password"
+                                   value="{{ $password ?? '' }}" required
+                                   placeholder="••••••••" autocomplete="current-password">
+                            <button type="button" class="bana-pass-toggle" id="passToggleBtn">
+                                <i class="tio-visible-outlined" id="passToggleIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    {{-- Remember / Forgot --}}
+                    <div class="bana-form-row">
+                        <label class="bana-remember">
+                            <input type="checkbox" name="remember" {{ $password ? 'checked' : '' }}>
+                            {{ translate('messages.remember_me') }}
+                        </label>
+                        @if ($role == 'admin')
+                            <button type="button" class="bana-forgot" data-toggle="modal" data-target="#forgetPassModal">
+                                {{ translate('Forget_Password?') }}
+                            </button>
+                        @elseif ($role == 'vendor')
+                            <button type="button" class="bana-forgot" data-toggle="modal" data-target="#forgetPassModal1">
+                                {{ translate('Forget_Password?') }}
+                            </button>
                         @endif
                     </div>
-                </div>
 
-                <div class="multi-language-change position-absolute start-0 top-0 mt-2">
-                    {{-- <select name="" id="" class="custom-select py-1 w-auto h-32px min-w-135px">
-                        <option value="1">English</option>
-                        <option value="1">Spanish</option>
-                        <option value="1">English</option>
-                        <option value="1">English</option>
-                    </select> --}}
-
-
-                </div>
-                <!-- Content -->
-                <label class="badge badge-soft-success float-right initial-1">
-                    {{translate('messages.software_version')}} : {{env('SOFTWARE_VERSION')}}
-                </label>
-                <!-- Form -->
-                <form class="login_form" action="{{route('login_post')}}" method="post" id="form-id">
-                    @csrf
-                    <input type="hidden" name="role" value="{{  $role ?? null }}">
-
-                    <div class="js-form-message form-group mb-2">
-                        <label class="form-label text-capitalize" for="signinSrEmail">{{translate('messages.your_email')}}</label>
-                        <input type="email" class="form-control form-control-lg" value="{{ $email ?? '' }}" name="email" id="signinSrEmail"
-                            tabindex="1" aria-label="email@address.com"
-                            required data-msg="Please enter a valid email address.">
-                        <div class="focus-effects"></div>
-                    </div>
-                    <!-- End Form Group -->
-
-                    <!-- Form Group -->
-                    <div class="js-form-message form-group">
-                        <label class="form-label text-capitalize" for="signupSrPassword" tabindex="0">
-                            <span class="d-flex justify-content-between align-items-center">
-                            {{translate('messages.password')}}
-                            </span>
-                        </label>
-                        <div class="input-group input-group-merge">
-                            <input type="password" class="js-toggle-password form-control form-control-lg __rounded"
-                                name="password" id="signupSrPassword" value="{{ $password ?? '' }}"
-                                aria-label="{{translate('messages.password_length_placeholder',['length'=>'6+'])}}" required
-                                data-msg="{{translate('messages.invalid_password_warning')}}"
-                                data-hs-toggle-password-options='{
-                                            "target": "#changePassTarget",
-                                    "defaultClass": "tio-hidden-outlined",
-                                    "showClass": "tio-visible-outlined",
-                                    "classChangeTarget": "#changePassIcon"
-                                    }'>
-
-                            <div class="focus-effects"></div>
-                            <div id="changePassTarget" class="input-group-append">
-                                <a class="input-group-text" href="javascript:">
-                                    <i id="changePassIcon" class="tio-visible-outlined"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Form Group -->
-                        <div class="mb-2"></div>
-                        <div class="d-flex justify-content-between mt-5">
-                    <!-- Checkbox -->
-                        <div class="form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="termsCheckbox" {{ $password ? 'checked' : '' }}
-                                    name="remember">
-                                <label class="custom-control-label text-muted" for="termsCheckbox">
-                                    {{translate('messages.remember_me')}}
-                                </label>
-                            </div>
-                        </div>
-                    <!-- End Checkbox -->
-                    <!-- forget password -->
-                        <div class="form-group {{ $role == 'admin' ? '' : 'd-none' }}"  id="forget-password">
-                            <div class="custom-control">
-                                <span type="button" data-toggle="modal" data-target="#forgetPassModal">{{ translate('Forget_Password?') }}</span>
-                            </div>
-                        </div>
-                        <div class="form-group {{ $role == 'vendor' ? '' : 'd-none' }}"  id="forget-password1">
-                            <div class="custom-control">
-                                <span type="button" data-toggle="modal" data-target="#forgetPassModal1">{{ translate('Forget_Password?') }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End forget password -->
-
-
-                    @php($recaptcha = \App\CentralLogics\Helpers::get_business_settings('recaptcha'))
+                    {{-- Captcha --}}
                     @if(isset($recaptcha) && $recaptcha['status'] == 1)
                         <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
-
-                        <input type="hidden" name="set_default_captcha" id="set_default_captcha_value" value="0" >
-                        <div class="row p-2 d-none" id="reload-captcha">
-                            <div class="col-6 pr-0">
-                                <input type="text" class="form-control form-control-lg border-0" name="custome_recaptcha"
-                                       id="custome_recaptcha" required placeholder="{{translate('Enter recaptcha value')}}" autocomplete="off" value="{{env('APP_MODE')=='dev'? session('six_captcha'):''}}">
-                            </div>
-                            <div class="col-6 bg-white rounded d-flex">
-                                <img src="<?php echo $custome_recaptcha->inline(); ?>" class="rounded w-100" />
-                                <div class="p-3 pr-0 capcha-spin reloadCaptcha">
-                                    <i class="tio-cached"></i>
-                                </div>
+                        <input type="hidden" name="set_default_captcha" id="set_default_captcha_value" value="0">
+                        <div class="bana-captcha-wrap d-none" id="reload-captcha">
+                            <input type="text" name="custome_recaptcha" id="custome_recaptcha" required
+                                   placeholder="{{ translate('Enter recaptcha value') }}" autocomplete="off"
+                                   value="{{ env('APP_MODE')=='dev' ? session('six_captcha') : '' }}">
+                            <div class="bana-captcha-img-wrap">
+                                <img src="<?php echo $custome_recaptcha->inline(); ?>" alt="captcha">
+                                <span class="capcha-spin reloadCaptcha"><i class="tio-cached"></i></span>
                             </div>
                         </div>
-
                     @else
-                        <div class="row p-2" id="reload-captcha">
-                            <div class="col-6 pr-0">
-                                <input type="text" class="form-control form-control-lg border-0" name="custome_recaptcha"
-                                       id="custome_recaptcha" required placeholder="{{translate('Enter recaptcha value')}}" autocomplete="off" value="{{env('APP_MODE')=='dev'? session('six_captcha'):''}}">
-                            </div>
-                            <div class="col-6 bg-white rounded d-flex">
-                                <img src="<?php echo $custome_recaptcha->inline(); ?>" class="rounded w-100" />
-                                <div class="p-3 pr-0 capcha-spin reloadCaptcha">
-                                    <i class="tio-cached"></i>
-                                </div>
+                        <div class="bana-captcha-wrap" id="reload-captcha">
+                            <input type="text" name="custome_recaptcha" id="custome_recaptcha" required
+                                   placeholder="{{ translate('Enter recaptcha value') }}" autocomplete="off"
+                                   value="{{ env('APP_MODE')=='dev' ? session('six_captcha') : '' }}">
+                            <div class="bana-captcha-img-wrap">
+                                <img src="<?php echo $custome_recaptcha->inline(); ?>" alt="captcha">
+                                <span class="capcha-spin reloadCaptcha"><i class="tio-cached"></i></span>
                             </div>
                         </div>
                     @endif
 
-                    <button type="submit" class="btn btn-lg btn-block btn-primary" id="signInBtn">{{translate('messages.sign_in')}}</button>
-                     @if ($role == 'admin')
-                     @php($data = \App\Models\DataSetting::where('type', 'login_restaurant')->pluck('value')->first() ?? 'restaurant')
-                     <p class="text-center mt-4 fs-14">{{ translate('Login as Restaurant Owner?') }} <a href="{{url('/') }}/login/{{$data}}" class="text__primary font-semibold">{{ translate('Login Here') }}</a></p>
+                    <button type="submit" class="bana-btn-submit" id="signInBtn">
+                        {{ translate('messages.sign_in') }}
+                    </button>
+
+                    @if ($role == 'admin')
+                        @php($vendorLoginSlug = \App\Models\DataSetting::where('type','login_restaurant')->pluck('value')->first() ?? 'restaurant')
+                        <p class="bana-switch-link">
+                            {{ translate('Login as Restaurant Owner?') }}
+                            <a href="{{ url('/') }}/login/{{ $vendorLoginSlug }}">{{ translate('Login Here') }}</a>
+                        </p>
                     @endif
                 </form>
-                <!-- End Form -->
 
-                <!-- End Content -->
+                {{-- Demo credentials --}}
+                @if(env('APP_MODE') == 'demo')
+                    @if(isset($role) && $role == 'admin')
+                        <div class="bana-demo-box">
+                            <div class="bana-demo-row">
+                                <div>
+                                    <span><strong>Email:</strong> admin@admin.com</span>
+                                    <span><strong>Password:</strong> 12345678</span>
+                                </div>
+                                <button class="bana-demo-copy" id="copy_cred"><i class="tio-copy"></i></button>
+                            </div>
+                        </div>
+                    @endif
+                    @if(isset($role) && $role == 'vendor')
+                        <div class="bana-demo-box">
+                            <div class="bana-demo-row">
+                                <div>
+                                    <span><strong>Email:</strong> test.restaurant@gmail.com</span>
+                                    <span><strong>Password:</strong> 12345678</span>
+                                </div>
+                                <button class="bana-demo-copy" id="copy_cred2"><i class="tio-copy"></i></button>
+                            </div>
+                        </div>
+                    @endif
+                @endif
             </div>
-            @if(env('APP_MODE') =='demo' )
-                @if (isset($role) &&  $role == 'admin')
-                    <div class="auto-fill-data-copy">
-                        <div class="d-flex flex-wrap align-items-center justify-content-between">
-                            <div>
-                                <span class="d-block"><strong>Email</strong> : admin@admin.com</span>
-                                <span class="d-block"><strong>Password</strong> : 12345678</span>
-                            </div>
-                            <div>
-                                <button class="btn btn-primary m-0" id="copy_cred"><i class="tio-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if (isset($role) &&  $role == 'vendor')
-                    <div class="auto-fill-data-copy">
-                        <div class="d-flex flex-wrap align-items-center justify-content-between">
-                            <div>
-                                <span class="d-block"><strong>Email</strong> : test.restaurant@gmail.com</span>
-                                <span class="d-block"><strong>Password</strong> : 12345678</span>
-                            </div>
-                            <div>
-                                <button class="btn btn-primary m-0" id="copy_cred2"><i class="tio-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            @endif
         </div>
     </div>
 </main>
-<!-- ========== END MAIN CONTENT ========== -->
 
 
 <div class="modal fade" id="forgetPassModal">
@@ -328,57 +366,29 @@
 @endif
 
 <script>
-    // $("#forget-password").hide();
-      $("#role-select").change(function() {
-        var selectValue = $(this).val();
-        if (selectValue == "admin") {
-          $("#forget-password").show();
-          $("#forget-password1").hide();
-        } else if(selectValue == "vendor") {
-          $("#forget-password").hide();
-          $("#forget-password1").show();
+    // Password visibility toggle
+    document.getElementById('passToggleBtn').addEventListener('click', function() {
+        var input = document.getElementById('signupSrPassword');
+        var icon  = document.getElementById('passToggleIcon');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.className = 'tio-hidden-outlined';
+        } else {
+            input.type = 'password';
+            icon.className = 'tio-visible-outlined';
         }
-        else {
-          $("#forget-password").hide();
-          $("#forget-password1").hide();
-        }
-      });
+    });
 </script>
 
-
 <script>
-    $(document).on('click','.reloadCaptcha', function(){
+    $(document).on('click', '.reloadCaptcha', function(){
         $.ajax({
             url: "{{ route('reload-captcha') }}",
             type: "GET",
             dataType: 'json',
-            beforeSend: function () {
-                $('#loading').show()
-                $('.capcha-spin').addClass('active')
-            },
-            success: function(data) {
-                $('#reload-captcha').html(data.view);
-            },
-            complete: function () {
-                $('#loading').hide()
-                $('.capcha-spin').removeClass('active')
-            }
-        });
-    });
-</script>
-<!-- JS Plugins Init. -->
-<script>
-    $(document).on('ready', function () {
-        // INITIALIZATION OF SHOW PASSWORD
-        // =======================================================
-        $('.js-toggle-password').each(function () {
-            new HSTogglePassword(this).init()
-        });
-
-        // INITIALIZATION OF FORM VALIDATION
-        // =======================================================
-        $('.js-validate').each(function () {
-            $.HSCore.components.HSValidation.init($(this));
+            beforeSend: function () { $('.capcha-spin').addClass('active'); },
+            success: function(data) { $('#reload-captcha').html(data.view); },
+            complete: function () { $('.capcha-spin').removeClass('active'); }
         });
     });
 </script>
