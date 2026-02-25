@@ -241,7 +241,7 @@ $(document).ready(function() {
     const SECONDARY = '{{ $game->display_settings["secondary_color"] ?? "#F5D800" }}';
     const TEXT_COLOR = '{{ $game->display_settings["text_color"] ?? "#1A1A1A" }}';
     const GAME_TYPE = '{{ $game->type }}';
-    const prizes = @json($game->prizes->map(fn($p) => ['id'=>$p->id,'name'=>$p->name,'color'=>$p->color,'type'=>$p->type,'value'=>$p->value,'probability'=>$p->probability]));
+    const prizes = @json($prizesData);
 
     // Update status bar time
     function updateTime(){

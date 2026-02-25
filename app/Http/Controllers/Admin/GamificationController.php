@@ -192,7 +192,18 @@ class GamificationController extends Controller
     {
         $game = GamificationGame::with('prizes')->findOrFail($id);
         
-        return view('admin-views.gamification.preview', compact('game'));
+        $prizesData = $game->prizes->map(function($p) {
+            return [
+                'id' => $p->id,
+                'name' => $p->name,
+                'color' => $p->color,
+                'type' => $p->type,
+                'value' => $p->value,
+                'probability' => $p->probability
+            ];
+        });
+        
+        return view('admin-views.gamification.preview', compact('game', 'prizesData'));
     }
 
     public function analytics($id)
