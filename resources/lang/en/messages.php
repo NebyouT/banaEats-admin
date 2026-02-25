@@ -7380,4 +7380,6 @@
   'Why Choose Us' => 'Why Choose Us',
   'Earn Money' => 'Earn Money',
   'Subscribe' => 'Subscribe',
+  'Live Order Status' => 'Live Order Status',
+  'Filter by zone' => 'Filter by zone',
 );
