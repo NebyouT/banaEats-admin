@@ -97,7 +97,7 @@ class CustomPageBannerController extends Controller
 
             // Delete old file
             if ($custom_page_banner->image) {
-                Helpers::check_and_delete('custom-page-banner/', $custom_page_banner->image);
+                Helpers::check_and_delete('custom-page-banner', $custom_page_banner->image);
             }
 
             $custom_page_banner->media_type = $mediaType;
@@ -122,7 +122,7 @@ class CustomPageBannerController extends Controller
     public function delete(CustomPageBanner $custom_page_banner)
     {
         if ($custom_page_banner->image) {
-            Helpers::check_and_delete('custom-page-banner/', $custom_page_banner->image);
+            Helpers::check_and_delete('custom-page-banner', $custom_page_banner->image);
         }
         $custom_page_banner->delete();
         Toastr::success('Banner deleted successfully.');
@@ -144,7 +144,7 @@ class CustomPageBannerController extends Controller
     {
         $ext       = $mediaType === 'video' ? $file->getClientOriginalExtension() : ($mediaType === 'gif' ? 'gif' : 'png');
         $filename  = Str::uuid() . '.' . $ext;
-        $file->storeAs('public/custom-page-banner', $filename);
+        $file->storeAs('custom-page-banner', $filename, 'public');
         return $filename;
     }
 }

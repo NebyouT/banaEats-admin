@@ -88,6 +88,12 @@
 @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.05)}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 .shimmer-effect{background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.3) 50%,transparent 100%);background-size:200% 100%;animation:shimmer 2s infinite}
+
+/* Loading Spinner */
+.loading-spinner{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;padding:20px}
+.spinner-circle{width:40px;height:40px;border:3px solid #f3f3f3;border-top:3px solid var(--primary-color,#8DC63F);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:12px}
+.spinner-text{font-size:13px;color:#666;font-weight:500}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 </style>
 @endpush
 
@@ -155,7 +161,11 @@
 
                             <!-- Game Body -->
                             <div class="game-body" id="gameBody">
-                                <!-- JS will render game here -->
+                                <!-- Loading Spinner -->
+                                <div class="loading-spinner" id="gameLoading">
+                                    <div class="spinner-circle"></div>
+                                    <div class="spinner-text">{{ translate('Loading game...') }}</div>
+                                </div>
                             </div>
 
                             <!-- Plays Remaining -->
@@ -314,6 +324,9 @@ $(document).ready(function() {
                 </div>
             </div>
         `);
+        
+        // Hide loading spinner
+        $('#gameLoading').remove();
 
         function drawWheel(){
             const canvas=document.getElementById('wheelCanvas');
@@ -383,6 +396,10 @@ $(document).ready(function() {
             </div>
             <p style="font-size:12px;color:#aaa;margin-top:12px">Scratch the card to reveal your prize!</p>
         `);
+        
+        // Hide loading spinner
+        $('#gameLoading').remove();
+        
         setTimeout(()=>{
             const card=document.getElementById('scratchCard');
             const canvas=document.getElementById('scratchCanvas');
@@ -429,6 +446,10 @@ $(document).ready(function() {
                 <button class="slot-lever" id="slotPull" style="background:#fff;color:${TEXT_COLOR}">🎰 PULL LEVER</button>
             </div>
         `);
+        
+        // Hide loading spinner
+        $('#gameLoading').remove();
+        
         // Fill reels
         for(let r=0;r<3;r++){
             let html='';
@@ -464,6 +485,10 @@ $(document).ready(function() {
         }
         html+='</div><p style="font-size:12px;color:#aaa;margin-top:12px;text-align:center">Tap a box to reveal your prize!</p>';
         body.html(html);
+        
+        // Hide loading spinner
+        $('#gameLoading').remove();
+        
         let boxOpened=false;
         $(document).on('click','.mystery-box-item',function(){
             if(boxOpened) return;
@@ -493,6 +518,10 @@ $(document).ready(function() {
                 </div>
             </div>
         `);
+        
+        // Hide loading spinner
+        $('#gameLoading').remove();
+        
         let spinning=false, currentAngle=0;
         function drawWheel(){
             const canvas=document.getElementById('wheelCanvas');
