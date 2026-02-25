@@ -397,9 +397,14 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>['localization','react']], 
         Route::get('subscription/{id}/{tab?}','OrderSubscriptionController@show');
         Route::resource('subscription','OrderSubscriptionController');
 
-    });
+        // Gamification
+        Route::group(['prefix' => 'gamification'], function () {
+            Route::get('available-games', 'GamificationController@available_games');
+            Route::post('play/{game_id}', 'GamificationController@play_game');
+            Route::get('my-prizes', 'GamificationController@my_prizes');
+            Route::get('prize/{prize_code}', 'GamificationController@prize_details');
+        });
 
-    Route::group(['prefix' => 'customer', 'middleware' => 'apiGuestCheck'], function () {
         Route::group(['prefix' => 'order'], function () {
             Route::get('list', 'OrderController@get_order_list');
             Route::get('order-subscription-list', 'OrderController@get_order_subscription_list');

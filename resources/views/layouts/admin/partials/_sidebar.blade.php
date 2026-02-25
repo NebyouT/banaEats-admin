@@ -816,6 +816,19 @@ $order_sch = Cache::rememberForever('order_scheduled_stats', function () {
                     </li>
                     <!-- End Custom Page Banners -->
 
+                    <!-- Gamification -->
+                    <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/gamification*') ? 'active' : '' }}">
+                        <a class="js-navbar-vertical-aside-menu-link nav-link"
+                            href="{{ route('admin.gamification.index') }}"
+                            title="{{ translate('Gamification') }}">
+                            <i class="tio-game nav-icon side-nav-icon--design"></i>
+                            <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                {{ translate('Gamification') }}
+                            </span>
+                        </a>
+                    </li>
+                    <!-- End Gamification -->
+
 
                     <!-- advertisement -->
                     @if (Helpers::module_permission_check('advertisement'))

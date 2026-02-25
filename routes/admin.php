@@ -958,6 +958,31 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::delete('delete/{custom_page_banner}',             'CustomPageBannerController@delete')->name('delete');
         });
 
+        // Gamification
+        Route::group(['prefix' => 'gamification', 'as' => 'gamification.'], function () {
+            Route::get('/',                                          'GamificationController@index')->name('index');
+            Route::get('create',                                     'GamificationController@create')->name('create');
+            Route::post('store',                                     'GamificationController@store')->name('store');
+            Route::get('edit/{id}',                                  'GamificationController@edit')->name('edit');
+            Route::post('update/{id}',                               'GamificationController@update')->name('update');
+            Route::post('status',                                    'GamificationController@status')->name('status');
+            Route::delete('delete/{id}',                             'GamificationController@destroy')->name('delete');
+            Route::get('preview/{id}',                               'GamificationController@preview')->name('preview');
+            Route::get('analytics/{id}',                             'GamificationController@analytics')->name('analytics');
+            
+            // Prizes
+            Route::group(['prefix' => '{game_id}/prizes', 'as' => 'prizes.'], function () {
+                Route::get('/',                                      'GamificationPrizeController@index')->name('index');
+                Route::get('create',                                 'GamificationPrizeController@create')->name('create');
+                Route::post('store',                                 'GamificationPrizeController@store')->name('store');
+                Route::get('edit/{id}',                              'GamificationPrizeController@edit')->name('edit');
+                Route::post('update/{id}',                           'GamificationPrizeController@update')->name('update');
+                Route::post('status',                                'GamificationPrizeController@status')->name('status');
+                Route::delete('delete/{id}',                         'GamificationPrizeController@destroy')->name('delete');
+                Route::post('update-position',                       'GamificationPrizeController@updatePosition')->name('update-position');
+            });
+        });
+
     }); //Admin auth middleware
     Route::get('zone/get-coordinates/{id}', 'ZoneController@get_coordinates')->name('zone.get-coordinates');
 });
