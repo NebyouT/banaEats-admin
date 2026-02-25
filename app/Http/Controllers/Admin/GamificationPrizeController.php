@@ -55,6 +55,19 @@ class GamificationPrizeController extends Controller
             $prize->allow_multiple_wins = $request->has('allow_multiple_wins') ? 1 : 0;
             $prize->expiry_days = $request->expiry_days;
             $prize->min_order_amount = $request->min_order_amount;
+            $prize->max_discount_amount = $request->max_discount_amount;
+            $prize->max_delivery_distance_km = $request->max_delivery_distance_km;
+            $prize->min_delivery_time_gap_minutes = $request->min_delivery_time_gap_minutes;
+            $prize->max_delivery_time_gap_minutes = $request->max_delivery_time_gap_minutes;
+            $prize->valid_order_types = $request->valid_order_types;
+            $prize->valid_payment_methods = $request->valid_payment_methods;
+            $prize->min_cart_items = $request->min_cart_items;
+            $prize->min_order_count = $request->min_order_count;
+            $prize->schedule_type = $request->schedule_type;
+            $prize->valid_from_time = $request->valid_from_time;
+            $prize->valid_until_time = $request->valid_until_time;
+            $prize->valid_days = $request->valid_days;
+            $prize->new_customer_only = $request->has('new_customer_only') ? 1 : 0;
             $prize->restaurant_ids = $request->restaurant_ids;
             $prize->zone_ids = $request->zone_ids;
             $prize->color = $request->color ?? '#8DC63F';
@@ -115,13 +128,26 @@ class GamificationPrizeController extends Controller
                 $prize->remaining_quantity = max(0, $request->total_quantity - $used);
             }
             
-            $prize->allow_multiple_wins = $request->allow_multiple_wins ?? 0;
+            $prize->allow_multiple_wins = $request->has('allow_multiple_wins') ? 1 : 0;
             $prize->expiry_days = $request->expiry_days;
             $prize->min_order_amount = $request->min_order_amount;
+            $prize->max_discount_amount = $request->max_discount_amount;
+            $prize->max_delivery_distance_km = $request->max_delivery_distance_km;
+            $prize->min_delivery_time_gap_minutes = $request->min_delivery_time_gap_minutes;
+            $prize->max_delivery_time_gap_minutes = $request->max_delivery_time_gap_minutes;
+            $prize->valid_order_types = $request->valid_order_types;
+            $prize->valid_payment_methods = $request->valid_payment_methods;
+            $prize->min_cart_items = $request->min_cart_items;
+            $prize->min_order_count = $request->min_order_count;
+            $prize->schedule_type = $request->schedule_type;
+            $prize->valid_from_time = $request->valid_from_time;
+            $prize->valid_until_time = $request->valid_until_time;
+            $prize->valid_days = $request->valid_days;
+            $prize->new_customer_only = $request->has('new_customer_only') ? 1 : 0;
             $prize->restaurant_ids = $request->restaurant_ids;
             $prize->zone_ids = $request->zone_ids;
             $prize->color = $request->color ?? '#8DC63F';
-            $prize->status = $request->status ?? 1;
+            $prize->status = $request->has('status') ? 1 : 0;
             
             if ($request->hasFile('image')) {
                 $prize->image = Helpers::update('gamification/prizes/', $prize->image, 'png', $request->file('image'));

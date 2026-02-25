@@ -970,6 +970,17 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('preview/{id}',                               'GamificationController@preview')->name('preview');
             Route::get('analytics/{id}',                             'GamificationController@analytics')->name('analytics');
             
+            // Banners
+            Route::group(['prefix' => 'banners', 'as' => 'banners.'], function () {
+                Route::get('/',                                      'GamificationBannerController@index')->name('index');
+                Route::get('create',                                 'GamificationBannerController@create')->name('create');
+                Route::post('store',                                 'GamificationBannerController@store')->name('store');
+                Route::get('edit/{id}',                              'GamificationBannerController@edit')->name('edit');
+                Route::post('update/{id}',                           'GamificationBannerController@update')->name('update');
+                Route::post('status',                                'GamificationBannerController@status')->name('status');
+                Route::delete('delete/{id}',                         'GamificationBannerController@destroy')->name('delete');
+            });
+
             // Prizes
             Route::group(['prefix' => '{game_id}/prizes', 'as' => 'prizes.'], function () {
                 Route::get('/',                                      'GamificationPrizeController@index')->name('index');

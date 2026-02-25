@@ -11,18 +11,10 @@ class GamificationGamePlay extends Model
     use HasFactory;
 
     protected $fillable = [
-        'game_id',
-        'user_id',
-        'prize_id',
-        'is_winner',
-        'prize_code',
-        'is_claimed',
-        'claimed_at',
-        'expires_at',
-        'order_id',
-        'game_data',
-        'ip_address',
-        'user_agent',
+        'game_id', 'user_id', 'prize_id', 'is_winner', 'prize_code',
+        'is_claimed', 'claimed_at', 'expires_at', 'order_id', 'game_data',
+        'prize_status', 'unlocked_at', 'applied_at', 'applied_to_order_id', 'applied_details',
+        'ip_address', 'user_agent',
     ];
 
     protected $casts = [
@@ -30,7 +22,10 @@ class GamificationGamePlay extends Model
         'is_claimed' => 'boolean',
         'claimed_at' => 'datetime',
         'expires_at' => 'datetime',
+        'unlocked_at' => 'datetime',
+        'applied_at' => 'datetime',
         'game_data' => 'array',
+        'applied_details' => 'array',
     ];
 
     protected static function boot()

@@ -818,14 +818,27 @@ $order_sch = Cache::rememberForever('order_scheduled_stats', function () {
 
                     <!-- Gamification -->
                     <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/gamification*') ? 'active' : '' }}">
-                        <a class="js-navbar-vertical-aside-menu-link nav-link"
-                            href="{{ route('admin.gamification.index') }}"
+                        <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:"
                             title="{{ translate('Gamification') }}">
                             <i class="tio-game nav-icon side-nav-icon--design"></i>
                             <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                 {{ translate('Gamification') }}
                             </span>
                         </a>
+                        <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="{{ Request::is('admin/gamification*') ? 'display:block' : '' }}">
+                            <li class="nav-item {{ Request::is('admin/gamification') || Request::is('admin/gamification/create') || Request::is('admin/gamification/edit*') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin.gamification.index') }}" title="{{ translate('Games') }}">
+                                    <span class="tio-circle nav-indicator-icon"></span>
+                                    <span class="text-truncate">{{ translate('Games') }}</span>
+                                </a>
+                            </li>
+                            <li class="nav-item {{ Request::is('admin/gamification/banners*') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin.gamification.banners.index') }}" title="{{ translate('Banners') }}">
+                                    <span class="tio-circle nav-indicator-icon"></span>
+                                    <span class="text-truncate">{{ translate('Banners') }}</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <!-- End Gamification -->
 

@@ -334,6 +334,9 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>['localization','react']], 
         Route::get('{id}', 'CustomPageBannerController@details');
     });
 
+    // Gamification Banners (public)
+    Route::get('gamification/banners', 'GamificationController@banners');
+
     Route::group(['prefix' => 'categories'], function () {
         Route::get('/', 'CategoryController@get_categories');
         Route::get('childes/{category_id}', 'CategoryController@get_childes');
@@ -403,6 +406,9 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>['localization','react']], 
             Route::post('play/{game_id}', 'GamificationController@play_game');
             Route::get('my-prizes', 'GamificationController@my_prizes');
             Route::get('prize/{prize_code}', 'GamificationController@prize_details');
+            Route::post('unlock/{play_id}', 'GamificationController@unlock_prize');
+            Route::post('apply/{play_id}', 'GamificationController@apply_prize');
+            Route::post('validate/{play_id}', 'GamificationController@validate_prize_for_order');
         });
 
         Route::group(['prefix' => 'order'], function () {

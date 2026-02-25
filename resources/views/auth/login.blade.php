@@ -194,31 +194,6 @@
                         @endif
                     </div>
 
-                    {{-- Captcha --}}
-                    @if(isset($recaptcha) && $recaptcha['status'] == 1)
-                        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
-                        <input type="hidden" name="set_default_captcha" id="set_default_captcha_value" value="0">
-                        <div class="bana-captcha-wrap d-none" id="reload-captcha">
-                            <input type="text" name="custome_recaptcha" id="custome_recaptcha" required
-                                   placeholder="{{ translate('Enter recaptcha value') }}" autocomplete="off"
-                                   value="{{ env('APP_MODE')=='dev' ? session('six_captcha') : '' }}">
-                            <div class="bana-captcha-img-wrap">
-                                <img src="<?php echo $custome_recaptcha->inline(); ?>" alt="captcha">
-                                <span class="capcha-spin reloadCaptcha"><i class="tio-cached"></i></span>
-                            </div>
-                        </div>
-                    @else
-                        <div class="bana-captcha-wrap" id="reload-captcha">
-                            <input type="text" name="custome_recaptcha" id="custome_recaptcha" required
-                                   placeholder="{{ translate('Enter recaptcha value') }}" autocomplete="off"
-                                   value="{{ env('APP_MODE')=='dev' ? session('six_captcha') : '' }}">
-                            <div class="bana-captcha-img-wrap">
-                                <img src="<?php echo $custome_recaptcha->inline(); ?>" alt="captcha">
-                                <span class="capcha-spin reloadCaptcha"><i class="tio-cached"></i></span>
-                            </div>
-                        </div>
-                    @endif
-
                     <button type="submit" class="bana-btn-submit" id="signInBtn">
                         {{ translate('messages.sign_in') }}
                     </button>

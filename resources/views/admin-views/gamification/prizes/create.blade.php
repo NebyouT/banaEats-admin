@@ -129,6 +129,132 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h5 class="card-title">{{ translate('Advanced Controls') }} <small class="text-muted">({{ translate('Optional') }})</small></h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="input-label">{{ translate('Max Discount Amount') }}</label>
+                                    <input type="number" name="max_discount_amount" class="form-control" step="0.01" min="0" placeholder="{{ translate('No cap') }}">
+                                    <small class="text-muted">{{ translate('Caps percentage discount to this amount') }}</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="input-label">{{ translate('Max Delivery Distance (km)') }}</label>
+                                    <input type="number" name="max_delivery_distance_km" class="form-control" min="0" placeholder="{{ translate('No limit') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="input-label">{{ translate('Min Delivery Time (min)') }}</label>
+                                    <input type="number" name="min_delivery_time_gap_minutes" class="form-control" min="0" placeholder="{{ translate('Optional') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="input-label">{{ translate('Max Delivery Time (min)') }}</label>
+                                    <input type="number" name="max_delivery_time_gap_minutes" class="form-control" min="0" placeholder="{{ translate('Optional') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="input-label">{{ translate('Valid Order Types') }}</label>
+                                    <select name="valid_order_types[]" class="form-control js-select2-custom" multiple>
+                                        <option value="delivery">{{ translate('Delivery') }}</option>
+                                        <option value="takeaway">{{ translate('Takeaway') }}</option>
+                                        <option value="dine_in">{{ translate('Dine In') }}</option>
+                                    </select>
+                                    <small class="text-muted">{{ translate('Leave empty for all') }}</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="input-label">{{ translate('Valid Payment Methods') }}</label>
+                                    <select name="valid_payment_methods[]" class="form-control js-select2-custom" multiple>
+                                        <option value="cash_on_delivery">{{ translate('Cash on Delivery') }}</option>
+                                        <option value="digital_payment">{{ translate('Digital Payment') }}</option>
+                                        <option value="wallet">{{ translate('Wallet') }}</option>
+                                    </select>
+                                    <small class="text-muted">{{ translate('Leave empty for all') }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="input-label">{{ translate('Min Cart Items') }}</label>
+                                    <input type="number" name="min_cart_items" class="form-control" min="0" placeholder="{{ translate('No minimum') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="input-label">{{ translate('Min Order Count') }}</label>
+                                    <input type="number" name="min_order_count" class="form-control" min="0" placeholder="{{ translate('No minimum') }}">
+                                    <small class="text-muted">{{ translate('User must have this many past orders') }}</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <h6 class="mb-3">{{ translate('Schedule') }}</h6>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="input-label">{{ translate('Schedule Type') }}</label>
+                                    <select name="schedule_type" id="scheduleType" class="form-control">
+                                        <option value="">{{ translate('All Day') }}</option>
+                                        <option value="specific_time">{{ translate('Specific Time') }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 schedule-time-fields" style="display:none">
+                                <div class="form-group">
+                                    <label class="input-label">{{ translate('Valid From') }}</label>
+                                    <input type="time" name="valid_from_time" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-4 schedule-time-fields" style="display:none">
+                                <div class="form-group">
+                                    <label class="input-label">{{ translate('Valid Until') }}</label>
+                                    <input type="time" name="valid_until_time" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="input-label">{{ translate('Valid Days') }}</label>
+                            <select name="valid_days[]" class="form-control js-select2-custom" multiple>
+                                <option value="0">{{ translate('Sunday') }}</option>
+                                <option value="1">{{ translate('Monday') }}</option>
+                                <option value="2">{{ translate('Tuesday') }}</option>
+                                <option value="3">{{ translate('Wednesday') }}</option>
+                                <option value="4">{{ translate('Thursday') }}</option>
+                                <option value="5">{{ translate('Friday') }}</option>
+                                <option value="6">{{ translate('Saturday') }}</option>
+                            </select>
+                            <small class="text-muted">{{ translate('Leave empty for every day') }}</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="toggle-switch d-flex align-items-center">
+                                <input type="checkbox" name="new_customer_only" class="toggle-switch-input">
+                                <span class="toggle-switch-label"><span class="toggle-switch-indicator"></span></span>
+                                <span class="toggle-switch-content ml-2">
+                                    <span class="d-block">{{ translate('New Customers Only') }}</span>
+                                    <small class="text-muted">{{ translate('Only users with zero completed orders') }}</small>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="col-lg-4">
@@ -201,6 +327,11 @@ $(document).ready(function() {
             reader.readAsDataURL(file);
             $(this).next('.custom-file-label').text(file.name);
         }
+    });
+
+    // Schedule type toggle
+    $('#scheduleType').on('change', function(){
+        $('.schedule-time-fields').toggle($(this).val() === 'specific_time');
     });
 
     // Prize type change
