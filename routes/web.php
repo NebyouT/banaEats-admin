@@ -69,7 +69,8 @@ Route::get('cancellation-policy', 'HomeController@cancellation_policy')->name('c
 
 Route::get('subscription-invoice/{id}', 'HomeController@subscription_invoice')->name('subscription_invoice');
 
-
+// Gamification - Public Game Play Route for Mobile App
+Route::get('gamification/play/{gameId}', 'GamificationPlayController@play')->name('gamification.play');
 
 Route::get('authentication-failed', function () {
     $errors = [];
