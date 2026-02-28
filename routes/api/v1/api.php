@@ -328,10 +328,16 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>['localization','react']], 
         Route::get('{slug}', 'CustomPageController@details');
     });
 
-    // Custom Page Banners
+    // Custom Page Banners (Old System - Deprecated)
     Route::group(['prefix' => 'custom-page-banners'], function () {
         Route::get('/',    'CustomPageBannerController@list');
         Route::get('{id}', 'CustomPageBannerController@details');
+    });
+
+    // Page Builder Banners (New System)
+    Route::group(['prefix' => 'page-builder-banners'], function () {
+        Route::get('/',    'PageBuilderBannerController@list');
+        Route::get('{id}', 'PageBuilderBannerController@details');
     });
 
     // Gamification Banners (public)

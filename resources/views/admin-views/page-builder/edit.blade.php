@@ -46,7 +46,10 @@
 .canvas-section:hover .section-toolbar, .canvas-section.selected .section-toolbar { display: flex; }
 .section-toolbar button { width: 24px; height: 24px; border: none; background: transparent; color: #fff; border-radius: 3px; cursor: pointer; font-size: 11px; }
 .section-toolbar button:hover { background: rgba(255,255,255,.15); }
-.section-label { position: absolute; top: 2px; left: 6px; font-size: 9px; font-weight: 700; color: #adb5bd; text-transform: uppercase; letter-spacing: .5px; }
+.section-label { position: absolute; top: 2px; left: 6px; font-size: 9px; font-weight: 700; color: #adb5bd; text-transform: uppercase; letter-spacing: .5px; cursor: grab; padding: 2px 6px; border-radius: 3px; transition: .15s; display: flex; align-items: center; gap: 4px; }
+.section-label:hover { background: rgba(0,0,0,.05); color: #FC6A57; }
+.section-label:active { cursor: grabbing; }
+.section-label .drag-icon { font-size: 10px; opacity: .6; }
 .section-components { padding: 22px 10px 10px; min-height: 40px; }
 
 /* === COMPONENTS ON CANVAS === */
@@ -321,24 +324,94 @@ textarea.prop-input { font-size: 12px; resize: vertical; }
 <script>
 "use strict";
 
+// ══════════════════════════════════════════════════════════════════════
+// GLOBAL VARIABLES (accessible from onclick handlers)
+// ══════════════════════════════════════════════════════════════════════
+var pageData = @json($page->toBuilderJson());
+var selectedSection = null;
+var selectedComponent = null;
+var sortableInstances = []; // Track Sortable instances to destroy on re-render
+var SECTION_TYPES = {!! json_encode($sectionTypes) !!};
+var COMPONENT_TYPES = {!! json_encode($componentTypes) !!};
+var DEFAULT_IMG = '{{ dynamicAsset("public/assets/admin/img/100x100/food-default-image.png") }}';
+var URLS = {
+    save: '{{ route("admin.page-builder.save-structure", $page->id) }}',
+    publish: '{{ route("admin.page-builder.publish", $page->id) }}',
+    upload: '{{ route("admin.page-builder.upload-media") }}',
+    searchProducts: '{{ route("admin.page-builder.search-products") }}',
+    searchRestaurants: '{{ route("admin.page-builder.search-restaurants") }}',
+    searchCategories: '{{ route("admin.page-builder.search-categories") }}',
+};
+var CSRF = '{{ csrf_token() }}';
+
+// ══════════════════════════════════════════════════════════════════════
+// GLOBAL FUNCTIONS (accessible from onclick handlers in HTML)
+// ══════════════════════════════════════════════════════════════════════
+function moveSection(i, dir) {
+    var n = i + dir;
+    if (n < 0 || n >= pageData.sections.length) return;
+    var item = pageData.sections.splice(i, 1)[0];
+    pageData.sections.splice(n, 0, item);
+    pageData.sections.forEach(function(s, x) { s.order = x; });
+    renderCanvas();
+}
+
+function duplicateSection(i) {
+    var copy = JSON.parse(JSON.stringify(pageData.sections[i]));
+    copy.id = 'new_' + Date.now();
+    copy.name += ' (Copy)';
+    copy.components.forEach(function(c) { c.id = 'new_' + Date.now() + '_' + Math.random(); });
+    pageData.sections.splice(i + 1, 0, copy);
+    pageData.sections.forEach(function(s, x) { s.order = x; });
+    renderCanvas();
+    toastr.success('Section duplicated');
+}
+
+function deleteSection(i) {
+    if (!confirm('Delete this section and all its components?')) return;
+    pageData.sections.splice(i, 1);
+    pageData.sections.forEach(function(s, x) { s.order = x; });
+    renderCanvas();
+    showPageSettings();
+    toastr.success('Section deleted');
+}
+
+function editComponentById(id) {
+    for (var i = 0; i < pageData.sections.length; i++) {
+        var ci = pageData.sections[i].components.findIndex(function(c) { return c.id == id; });
+        if (ci !== -1) {
+            showComponentProperties(pageData.sections[i].components[ci], i, ci);
+            return;
+        }
+    }
+}
+
+function deleteComponentById(id) {
+    for (var i = 0; i < pageData.sections.length; i++) {
+        var ci = pageData.sections[i].components.findIndex(function(c) { return c.id == id; });
+        if (ci !== -1) {
+            pageData.sections[i].components.splice(ci, 1);
+            pageData.sections[i].components.forEach(function(c, x) { c.order = x; });
+            renderCanvas();
+            toastr.success('Component deleted');
+            return;
+        }
+    }
+}
+
+function updatePageSetting(key, val) {
+    if (!pageData.settings) pageData.settings = {};
+    pageData.settings[key] = val;
+}
+
+function clearPickerSelection() {
+    selectedPickerItems = [];
+    jQuery('#dataPickerGrid .picker-item').removeClass('selected');
+    updatePickerSelectedBar();
+}
+
 // Wait for jQuery to be ready
 jQuery(document).ready(function($) {
-    let pageData = @json($page->toBuilderJson());
-    let selectedSection = null;
-    let selectedComponent = null;
-    const SECTION_TYPES = {!! json_encode($sectionTypes) !!};
-    const COMPONENT_TYPES = {!! json_encode($componentTypes) !!};
-    const DEFAULT_IMG = '{{ dynamicAsset("public/assets/admin/img/100x100/food-default-image.png") }}';
-    const URLS = {
-        save: '{{ route("admin.page-builder.save-structure", $page->id) }}',
-        publish: '{{ route("admin.page-builder.publish", $page->id) }}',
-        upload: '{{ route("admin.page-builder.upload-media") }}',
-        searchProducts: '{{ route("admin.page-builder.search-products") }}',
-        searchRestaurants: '{{ route("admin.page-builder.search-restaurants") }}',
-        searchCategories: '{{ route("admin.page-builder.search-categories") }}',
-    };
-    const CSRF = '{{ csrf_token() }}';
-
     // ══════════════════════════════════════════════════════════════════════
     // INIT
     // ══════════════════════════════════════════════════════════════════════
@@ -354,11 +427,25 @@ jQuery(document).ready(function($) {
 // CANVAS RENDERING (live preview)
 // ══════════════════════════════════════════════════════════════════════
 function renderCanvas() {
-    const c = $('#sections-container').empty();
-    if (!pageData.sections || !pageData.sections.length) { $('#canvas-empty').show(); return; }
-    $('#canvas-empty').hide();
-    pageData.sections.forEach((s, i) => c.append(buildSectionHtml(s, i)));
-    initSortables();
+    var c = jQuery('#sections-container').empty();
+    
+    // Destroy existing Sortable instances to prevent duplicates
+    sortableInstances.forEach(function(instance) {
+        if (instance && instance.destroy) instance.destroy();
+    });
+    sortableInstances = [];
+    
+    if (!pageData.sections || !pageData.sections.length) { 
+        jQuery('#canvas-empty').show(); 
+        return; 
+    }
+    jQuery('#canvas-empty').hide();
+    pageData.sections.forEach(function(s, i) { c.append(buildSectionHtml(s, i)); });
+    
+    // Re-initialize sortables after DOM update
+    setTimeout(function() {
+        initSortables();
+    }, 50);
 }
 
 function buildSectionHtml(section, idx) {
@@ -379,7 +466,7 @@ function buildSectionHtml(section, idx) {
             <button onclick="duplicateSection(${idx})" title="Copy"><i class="tio-copy"></i></button>
             <button onclick="deleteSection(${idx})" title="Delete"><i class="tio-delete"></i></button>
         </div>
-        <span class="section-label">${info.name}</span>
+        <span class="section-label"><i class="tio-drag drag-icon"></i>${info.name}</span>
         <div class="section-components" data-section-index="${idx}">${compsHtml}</div>
     </div>`;
 }
@@ -1129,13 +1216,40 @@ $('#dataPickerConfirm').on('click', function() {
 // SORTABLE, DRAG-DROP, SECTION/COMPONENT CRUD
 // ══════════════════════════════════════════════════════════════════════
 function initSortables() {
-    const c = document.getElementById('sections-container');
+    var c = document.getElementById('sections-container');
     if (!c) return;
-    new Sortable(c, { animation: 150, handle: '.canvas-section', ghostClass: 'sortable-ghost', onEnd(e) { const i = pageData.sections.splice(e.oldIndex,1)[0]; pageData.sections.splice(e.newIndex,0,i); pageData.sections.forEach((s,x)=>s.order=x); }});
-    document.querySelectorAll('.section-components').forEach(el => {
-        new Sortable(el, { group: 'components', animation: 150, ghostClass: 'sortable-ghost',
-            onEnd(e) { const si = +e.to.dataset.sectionIndex; const sec = pageData.sections[si]; if(!sec) return; const it = sec.components.splice(e.oldIndex,1)[0]; sec.components.splice(e.newIndex,0,it); sec.components.forEach((c,x)=>c.order=x); }
+    
+    // Create sortable for sections with proper drag handle
+    var sectionSortable = new Sortable(c, {
+        animation: 150,
+        handle: '.section-label', // Use section label as drag handle
+        draggable: '.canvas-section',
+        ghostClass: 'sortable-ghost',
+        onEnd: function(e) {
+            var item = pageData.sections.splice(e.oldIndex, 1)[0];
+            pageData.sections.splice(e.newIndex, 0, item);
+            pageData.sections.forEach(function(s, x) { s.order = x; });
+        }
+    });
+    sortableInstances.push(sectionSortable);
+    
+    // Create sortable for components within each section
+    document.querySelectorAll('.section-components').forEach(function(el) {
+        var compSortable = new Sortable(el, {
+            group: 'components',
+            animation: 150,
+            draggable: '.canvas-component',
+            ghostClass: 'sortable-ghost',
+            onEnd: function(e) {
+                var si = parseInt(e.to.dataset.sectionIndex);
+                var sec = pageData.sections[si];
+                if (!sec) return;
+                var item = sec.components.splice(e.oldIndex, 1)[0];
+                sec.components.splice(e.newIndex, 0, item);
+                sec.components.forEach(function(c, x) { c.order = x; });
+            }
         });
+        sortableInstances.push(compSortable);
     });
 }
 
@@ -1164,24 +1278,8 @@ function addComponent(si, type) {
     renderCanvas(); toastr.success('Component added');
 }
 
-function moveSection(i, dir) { const n=i+dir; if(n<0||n>=pageData.sections.length) return; const it=pageData.sections.splice(i,1)[0]; pageData.sections.splice(n,0,it); pageData.sections.forEach((s,x)=>s.order=x); renderCanvas(); }
-
-function duplicateSection(i) {
-    const copy=JSON.parse(JSON.stringify(pageData.sections[i])); copy.id='new_'+Date.now(); copy.name+=' (Copy)'; copy.components.forEach(c=>c.id='new_'+Date.now()+'_'+Math.random());
-    pageData.sections.splice(i+1,0,copy); pageData.sections.forEach((s,x)=>s.order=x); renderCanvas(); toastr.success('Section duplicated');
-}
-
-function deleteSection(i) {
-    if(!confirm('Delete this section and all its components?')) return;
-    pageData.sections.splice(i,1); pageData.sections.forEach((s,x)=>s.order=x); renderCanvas(); showPageSettings(); toastr.success('Section deleted');
-}
-
-function editComponentById(id) {
-    for(let i=0;i<pageData.sections.length;i++) { const ci=pageData.sections[i].components.findIndex(c=>c.id==id); if(ci!==-1){showComponentProperties(pageData.sections[i].components[ci],i,ci);return;} }
-}
-function deleteComponentById(id) {
-    for(let i=0;i<pageData.sections.length;i++) { const ci=pageData.sections[i].components.findIndex(c=>c.id==id); if(ci!==-1){pageData.sections[i].components.splice(ci,1);pageData.sections[i].components.forEach((c,x)=>c.order=x);renderCanvas();toastr.success('Deleted');return;} }
-}
+// Note: moveSection, duplicateSection, deleteSection, editComponentById, deleteComponentById
+// are defined globally above the jQuery ready block so they can be called from onclick handlers
 
 // ══════════════════════════════════════════════════════════════════════
 // EVENTS (click selection, device switch, save/publish)
@@ -1208,10 +1306,7 @@ function initDeviceSwitcher() {
     $('.device-btn').on('click', function() { $('.device-btn').removeClass('active'); $(this).addClass('active'); $('#builder-canvas').css('max-width', $(this).data('width')+'px'); });
 }
 
-function updatePageSetting(key, val) {
-    if(!pageData.settings) pageData.settings = {};
-    pageData.settings[key] = val;
-}
+// Note: updatePageSetting is defined globally above
 
 function initSavePublish() {
     $('#save-page-btn').on('click', function() {

@@ -172,23 +172,12 @@
                         <a href="{{ route('admin.page-builder.preview', $page->id) }}" class="btn btn-sm btn-outline-info" target="_blank">
                             <i class="tio-visible"></i>
                         </a>
-                        <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">
-                                <i class="tio-more-vertical"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="{{ route('admin.page-builder.duplicate', $page->id) }}">
-                                    <i class="tio-copy mr-2"></i> {{ translate('Duplicate') }}
-                                </a>
-                                <a class="dropdown-item" href="{{ route('admin.page-builder.export', $page->id) }}">
-                                    <i class="tio-download mr-2"></i> {{ translate('Export') }}
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="deletePage({{ $page->id }})">
-                                    <i class="tio-delete mr-2"></i> {{ translate('Delete') }}
-                                </a>
-                            </div>
-                        </div>
+                        <a href="{{ route('admin.page-builder.duplicate', $page->id) }}" class="btn btn-sm btn-outline-secondary" title="{{ translate('Duplicate') }}">
+                            <i class="tio-copy"></i>
+                        </a>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="deletePage({{ $page->id }})" title="{{ translate('Delete') }}">
+                            <i class="tio-delete"></i>
+                        </button>
                     </div>
                 </div>
             </div>

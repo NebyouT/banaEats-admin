@@ -982,7 +982,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('search-restaurants',                 'CustomPageController@search_restaurants')->name('search-restaurants');
         });
 
-        // Custom Page Banners
+        // Custom Page Banners (Old System - Deprecated)
         Route::group(['prefix' => 'custom-page-banner', 'as' => 'custom-page-banner.'], function () {
             Route::get('/',                                          'CustomPageBannerController@index')->name('index');
             Route::get('create',                                     'CustomPageBannerController@create')->name('create');
@@ -991,6 +991,17 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::put('update/{custom_page_banner}',                'CustomPageBannerController@update')->name('update');
             Route::post('status',                                    'CustomPageBannerController@status')->name('status');
             Route::delete('delete/{custom_page_banner}',             'CustomPageBannerController@delete')->name('delete');
+        });
+
+        // Page Builder Banners (New System)
+        Route::group(['prefix' => 'page-builder-banner', 'as' => 'page-builder-banner.'], function () {
+            Route::get('/',                                          'PageBuilderBannerController@index')->name('index');
+            Route::get('create',                                     'PageBuilderBannerController@create')->name('create');
+            Route::post('store',                                     'PageBuilderBannerController@store')->name('store');
+            Route::get('edit/{id}',                                  'PageBuilderBannerController@edit')->name('edit');
+            Route::post('update/{id}',                               'PageBuilderBannerController@update')->name('update');
+            Route::post('status',                                    'PageBuilderBannerController@status')->name('status');
+            Route::delete('delete/{id}',                             'PageBuilderBannerController@destroy')->name('delete');
         });
 
         // Gamification
