@@ -3,9 +3,27 @@
     $style = $section->style ?? [];
     $bgColor = $settings['background_color'] ?? 'transparent';
     $padding = ($settings['padding_top'] ?? 16) . 'px ' . ($settings['padding_right'] ?? 16) . 'px ' . ($settings['padding_bottom'] ?? 16) . 'px ' . ($settings['padding_left'] ?? 16) . 'px';
+    $margin = ($settings['margin_top'] ?? 0) . 'px 0 ' . ($settings['margin_bottom'] ?? 0) . 'px 0';
+    $borderRadius = ($settings['border_radius'] ?? 0) . 'px';
+    $bgImage = !empty($settings['background_image']) ? "background-image:url('{$settings['background_image']}');background-size:cover;background-position:center;" : '';
+    $opacity = isset($settings['opacity']) && $settings['opacity'] != 1 ? "opacity:{$settings['opacity']};" : '';
+    $animation = !empty($settings['animation']) ? "animation:{$settings['animation']} " . ($settings['animation_duration'] ?? '0.5s') . " ease;" : '';
+    $extraStyle = '';
+    if (!empty($style['position']) && $style['position'] !== 'static') $extraStyle .= "position:{$style['position']};";
+    if (!empty($style['top'])) $extraStyle .= "top:{$style['top']};";
+    if (!empty($style['left'])) $extraStyle .= "left:{$style['left']};";
+    if (!empty($style['right'])) $extraStyle .= "right:{$style['right']};";
+    if (!empty($style['bottom'])) $extraStyle .= "bottom:{$style['bottom']};";
+    if (!empty($style['z_index'])) $extraStyle .= "z-index:{$style['z_index']};";
+    if (!empty($style['text_align'])) $extraStyle .= "text-align:{$style['text_align']};";
+    if (!empty($style['border'])) $extraStyle .= "border:{$style['border']};";
+    if (!empty($style['box_shadow'])) $extraStyle .= "box-shadow:{$style['box_shadow']};";
+    if (!empty($style['width'])) $extraStyle .= "width:{$style['width']};";
+    if (!empty($style['height'])) $extraStyle .= "height:{$style['height']};";
+    if (!empty($style['overflow'])) $extraStyle .= "overflow:{$style['overflow']};";
 @endphp
 
-<div class="pb-section {{ $section->section_type }}" style="background: {{ $bgColor }}; padding: {{ $padding }};">
+<div class="pb-section {{ $section->section_type }}" style="background:{{ $bgColor }};padding:{{ $padding }};margin:{{ $margin }};border-radius:{{ $borderRadius }};{{ $bgImage }}{{ $opacity }}{{ $animation }}{{ $extraStyle }}">
     @switch($section->section_type)
         @case('hero')
             @include('admin-views.page-builder.partials.sections.hero', ['section' => $section, 'settings' => $settings])
@@ -43,6 +61,14 @@
         
         @case('countdown')
             @include('admin-views.page-builder.partials.sections.countdown', ['section' => $section, 'settings' => $settings, 'pageSettings' => $pageSettings])
+            @break
+
+        @case('tabs')
+            @include('admin-views.page-builder.partials.sections.tabs', ['section' => $section, 'settings' => $settings, 'pageSettings' => $pageSettings])
+            @break
+
+        @case('restaurant_foods')
+            @include('admin-views.page-builder.partials.sections.restaurant-foods', ['section' => $section, 'settings' => $settings, 'pageSettings' => $pageSettings])
             @break
         
         @default

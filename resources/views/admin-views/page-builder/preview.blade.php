@@ -29,7 +29,7 @@
             <button class="device-btn" data-w="768" data-h="1024">Tablet</button>
             <button class="device-btn" data-w="1024" data-h="768">Desktop</button>
         </div>
-        <a href="{{ url('/page/' . $page->slug) }}" target="_blank" class="btn btn-sm btn-primary ml-3">
+        <a href="{{ route('admin.page-builder.render', $page->id) }}" target="_blank" class="btn btn-sm btn-primary ml-3">
             <i class="tio-open-in-new mr-1"></i> {{ translate('Open Full Page') }}
         </a>
     </div>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="phone-content">
-                    <iframe src="{{ url('/page/' . $page->slug) }}" style="width: 100%; height: 100%; border: none;"></iframe>
+                    <iframe src="{{ route('admin.page-builder.render', $page->id) }}" style="width: 100%; height: 100%; border: none;"></iframe>
                 </div>
                 <div class="phone-home-bar"></div>
             </div>

@@ -816,6 +816,19 @@ $order_sch = Cache::rememberForever('order_scheduled_stats', function () {
                     </li>
                     <!-- End Custom Page Banners -->
 
+                    <!-- Page Builder -->
+                    <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/page-builder*') ? 'active' : '' }}">
+                        <a class="js-navbar-vertical-aside-menu-link nav-link"
+                            href="{{ route('admin.page-builder.index') }}"
+                            title="{{ translate('Page Builder') }}">
+                            <i class="tio-website nav-icon side-nav-icon--design"></i>
+                            <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                {{ translate('Page Builder') }}
+                            </span>
+                        </a>
+                    </li>
+                    <!-- End Page Builder -->
+
                     <!-- Gamification -->
                     <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/gamification*') ? 'active' : '' }}">
                         <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:"

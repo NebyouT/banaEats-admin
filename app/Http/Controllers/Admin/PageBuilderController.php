@@ -341,12 +341,16 @@ class PageBuilderController extends Controller
     {
         $page = BuilderPage::with(['sections.components'])->findOrFail($id);
 
-        // Track view
-        $page->views()->create([
-            'session_id' => session()->getId(),
-            'device_type' => request()->header('User-Agent'),
-            'referrer' => request()->header('Referer'),
-        ]);
+        // Track view (silently fail if table doesn't exist)
+        try {
+            $page->views()->create([
+                'session_id' => session()->getId(),
+                'device_type' => request()->header('User-Agent'),
+                'referrer' => request()->header('Referer'),
+            ]);
+        } catch (\Exception $e) {
+            // View tracking table may not exist yet
+        }
 
         return view('admin-views.page-builder.render', compact('page'));
     }
@@ -359,10 +363,11 @@ class PageBuilderController extends Controller
     {
         $search = $request->get('search', '');
         $restaurantId = $request->get('restaurant_id');
+        $categoryId = $request->get('category_id');
         $limit = $request->get('limit', 30);
 
         $query = Food::withoutGlobalScopes()
-            ->with(['storage', 'restaurant:id,name'])
+            ->with(['storage', 'restaurant:id,name', 'category:id,name'])
             ->where('status', 1)
             ->when($search, function ($q) use ($search) {
                 foreach (explode(' ', $search) as $word) {
@@ -371,17 +376,26 @@ class PageBuilderController extends Controller
             })
             ->when($restaurantId, function ($q) use ($restaurantId) {
                 $q->where('restaurant_id', $restaurantId);
+            })
+            ->when($categoryId, function ($q) use ($categoryId) {
+                $q->where('category_id', $categoryId);
             });
 
-        $foods = $query->limit($limit)->get(['id', 'name', 'image', 'price', 'restaurant_id']);
+        $foods = $query->limit($limit)->get(['id', 'name', 'image', 'price', 'discount', 'discount_type', 'restaurant_id', 'category_id', 'avg_rating', 'description']);
 
         return response()->json($foods->map(function ($f) {
             return [
                 'id' => $f->id,
                 'name' => $f->name,
                 'price' => $f->price,
+                'discount' => $f->discount,
+                'discount_type' => $f->discount_type,
+                'description' => Str::limit($f->description, 60),
+                'avg_rating' => $f->avg_rating,
                 'image_full_url' => $f->image_full_url,
+                'restaurant_id' => $f->restaurant_id,
                 'restaurant_name' => $f->restaurant->name ?? '',
+                'category_name' => $f->category->name ?? '',
             ];
         }));
     }

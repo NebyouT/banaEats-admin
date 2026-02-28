@@ -946,6 +946,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::delete('delete/{id}',                         'PageBuilderController@delete')->name('delete');
             Route::get('duplicate/{id}',                         'PageBuilderController@duplicate')->name('duplicate');
             Route::get('preview/{id}',                           'PageBuilderController@preview')->name('preview');
+            Route::get('render/{id}',                            'PageBuilderController@renderPage')->name('render');
             Route::get('export/{id}',                            'PageBuilderController@exportPage')->name('export');
             Route::post('import',                                'PageBuilderController@importPage')->name('import');
             Route::post('save-structure/{id}',                   'PageBuilderController@savePageStructure')->name('save-structure');

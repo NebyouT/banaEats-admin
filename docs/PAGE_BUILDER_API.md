@@ -6,9 +6,16 @@ The Page Builder system allows administrators to create custom, fully customizab
 
 ## Features
 
-- **Drag-and-drop page builder** with real-time preview
-- **Multiple section types**: Hero banners, product grids, restaurant lists, text blocks, buttons, spacers, dividers, countdown timers, and more
+- **Drag-and-drop page builder** with real-time live preview
+- **Advanced CSS controls**: Padding, margin, positioning (fixed/absolute/sticky), border radius, box shadow, opacity, background images/colors
+- **Animation system**: fadeIn, slideInUp, slideInLeft, slideInRight, zoomIn, bounceIn, pulse
+- **Image upload**: Upload images directly in the editor for sections and components
+- **Multiple section types**: Hero banners, product grids, restaurant lists, text blocks, buttons, spacers, dividers, countdown timers, tabs, restaurant+foods combo, and more
 - **Component-based architecture**: Each section contains customizable components
+- **Advanced card customization**: Toggle fields (name, price, rating, image, description), customize colors per card
+- **Restaurant + Foods combo card**: 3:1 aspect ratio card with restaurant info + horizontally scrollable food list
+- **Tabs section**: WordPress-style tabbed containers with customizable colors and labels
+- **Product picker with filters**: Filter products by restaurant, category, and search
 - **Product & Restaurant integration**: Link actual products and restaurants to display real data
 - **Action system**: Configure click actions to navigate to products, restaurants, categories, or external URLs
 - **Mobile-responsive**: Pages are optimized for WebView display in mobile apps
@@ -51,6 +58,11 @@ The editor has three main areas:
 | `spacer` | Empty vertical space |
 | `divider` | Horizontal line separator |
 | `countdown` | Countdown timer to a date |
+| `tabs` | Tabbed container - WordPress-style tabs holding other components |
+| `restaurant_foods` | Restaurant card with horizontally scrollable food list |
+| `video` | Embedded video |
+| `custom_html` | Raw HTML content |
+| `columns` | Multi-column layout |
 
 ### Available Component Types
 
@@ -66,6 +78,48 @@ The editor has three main areas:
 | `restaurant_list` | Multiple restaurants |
 | `spacer` | Vertical space |
 | `divider` | Horizontal line |
+
+### Advanced Styling (Per Section & Component)
+
+Every section and component supports these CSS properties via the editor's properties panel:
+
+| Property Group | Controls |
+|---------------|----------|
+| **Spacing** | Padding (T/R/B/L), Margin (T/B) |
+| **Background** | Color, Image upload/URL, Opacity (0-1) |
+| **Position & Layout** | Position (static/relative/absolute/fixed/sticky), Top/Right/Bottom/Left offsets, Z-Index, Text Align, Display mode, Width, Height |
+| **Border & Shadow** | Border Radius, Border (e.g. `1px solid #ddd`), Box Shadow |
+| **Animation** | Type (fadeIn, slideInUp, slideInLeft, slideInRight, zoomIn, bounceIn, pulse), Duration |
+| **Typography** | Font Size, Color, Line Height, Font Weight (400-800) |
+| **Visibility** | Show/Hide toggle |
+
+### Product Card Display Options
+
+When editing product cards, you can toggle:
+- Show Image, Show Name, Show Price, Show Restaurant, Show Rating, Show Description
+- Customize: Card Background Color, Name Color, Price Color
+
+### Restaurant Card Display Options
+
+When editing restaurant cards, you can toggle:
+- Show Image, Show Name, Show Rating, Show Address, Show Delivery Time
+- Customize: Card Background Color, Name Color
+
+### Restaurant + Foods Combo Card
+
+This section type creates a 3:1 aspect ratio card with:
+- Restaurant header (logo, name, rating)
+- Horizontally scrollable food list from that restaurant
+- Options: Auto-load all foods or select specific products
+- Toggle: Show Logo, Name, Rating, Food Price, Food Name
+- Customize: Card BG color, Name color, Max food count
+
+### Tabs Section
+
+WordPress-style tabbed containers:
+- Add/remove tabs by editing tab labels (one per line)
+- Components inside are assigned to tabs via `tab_index`
+- Customize: Active Tab Color, Tab Text Color, Tab Background, Border Radius
 
 ---
 
@@ -438,19 +492,183 @@ class PageBuilderNative extends StatelessWidget {
 
 1. **Create the page** with title "Flash Sale"
 2. **Add a Hero section** with:
-   - Background image
-   - Heading: "50% OFF Everything!"
+   - Background image (upload directly or paste URL)
+   - Heading: "50% OFF Everything!" with animation: slideInUp
    - Button: "Shop Now" → action: navigate to category
 3. **Add Products Grid section** with:
-   - Select featured products
+   - Select featured products (filter by restaurant or category)
    - Configure 2-column layout
-4. **Add Countdown section** with:
+   - Toggle: Show Price ✓, Show Rating ✓, Show Restaurant ✓
+   - Customize Price Color: `#FC6A57`
+4. **Add Restaurant + Foods combo section** with:
+   - Select a restaurant
+   - Auto-load top 10 foods
+   - Horizontal scrollable food cards
+5. **Add Tabs section** with:
+   - Tab 1: "Hot Deals" → add product list component
+   - Tab 2: "Restaurants" → add restaurant list component
+6. **Add Countdown section** with:
    - Target date for sale end
-5. **Publish the page**
+   - Animation: pulse
+7. **Publish the page**
 
 The page will be accessible at:
 - WebView URL: `https://your-domain.com/page/flash-sale-xyz123`
 - API: `GET /api/v1/pages/flash-sale-xyz123`
+
+---
+
+## Flutter Native Rendering: New Section Types
+
+### Rendering `restaurant_foods` Section
+
+```dart
+Widget _buildRestaurantFoodsSection(Map<String, dynamic> section) {
+  final settings = section['settings'] ?? {};
+  final restaurantId = settings['restaurant_id'];
+  
+  return FutureBuilder(
+    future: getRestaurantWithFoods(restaurantId),
+    builder: (context, snapshot) {
+      if (!snapshot.hasData) return CircularProgressIndicator();
+      final data = snapshot.data!;
+      final restaurant = data['restaurant'];
+      final foods = data['foods'] as List;
+      
+      return Container(
+        decoration: BoxDecoration(
+          color: Color(parseColor(settings['card_bg_color'] ?? '#ffffff')),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [BoxShadow(blurRadius: 12, color: Colors.black12)],
+        ),
+        child: Column(
+          children: [
+            // Restaurant header
+            ListTile(
+              leading: settings['show_restaurant_logo'] != false
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.network(restaurant['logo'], width: 52, height: 52, fit: BoxFit.cover),
+                    )
+                  : null,
+              title: settings['show_restaurant_name'] != false
+                  ? Text(restaurant['name'], style: TextStyle(fontWeight: FontWeight.w700))
+                  : null,
+              subtitle: settings['show_restaurant_rating'] != false
+                  ? Row(children: [Icon(Icons.star, size: 14, color: Colors.amber), Text(' ${restaurant["rating"]}')])
+                  : null,
+            ),
+            // Horizontally scrollable foods
+            SizedBox(
+              height: 160,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                itemCount: foods.length,
+                itemBuilder: (context, i) => _buildFoodMiniCard(foods[i], settings),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+```
+
+### Rendering `tabs` Section
+
+```dart
+Widget _buildTabsSection(Map<String, dynamic> section) {
+  final settings = section['settings'] ?? {};
+  final labels = List<String>.from(settings['tab_labels'] ?? ['Tab 1', 'Tab 2']);
+  final components = section['components'] as List;
+  
+  return DefaultTabController(
+    length: labels.length,
+    child: Column(
+      children: [
+        TabBar(
+          tabs: labels.map((l) => Tab(text: l)).toList(),
+          labelColor: Color(parseColor(settings['tab_active_text_color'] ?? '#ffffff')),
+          unselectedLabelColor: Color(parseColor(settings['tab_text_color'] ?? '#888888')),
+          indicator: BoxDecoration(
+            color: Color(parseColor(settings['tab_active_color'] ?? '#FC6A57')),
+            borderRadius: BorderRadius.circular(settings['tab_border_radius']?.toDouble() ?? 8),
+          ),
+        ),
+        // Tab content: filter components by tab_index
+        ...labels.asMap().entries.map((e) {
+          final tabComponents = components.where(
+            (c) => (c['settings']?['tab_index'] ?? 0) == e.key
+          ).toList();
+          return _buildComponentsList(tabComponents);
+        }),
+      ],
+    ),
+  );
+}
+```
+
+### Applying Advanced Styles
+
+Every section's `settings` and `style` JSON can be mapped to Flutter:
+
+```dart
+BoxDecoration buildDecoration(Map settings, Map style) {
+  return BoxDecoration(
+    color: settings['background_color'] != null
+        ? Color(parseColor(settings['background_color']))
+        : null,
+    image: settings['background_image'] != null
+        ? DecorationImage(image: NetworkImage(settings['background_image']), fit: BoxFit.cover)
+        : null,
+    borderRadius: BorderRadius.circular((settings['border_radius'] ?? 0).toDouble()),
+    border: style['border'] != null ? parseBorder(style['border']) : null,
+    boxShadow: style['box_shadow'] != null ? [parseBoxShadow(style['box_shadow'])] : null,
+  );
+}
+
+EdgeInsets buildPadding(Map settings) {
+  return EdgeInsets.fromLTRB(
+    (settings['padding_left'] ?? 16).toDouble(),
+    (settings['padding_top'] ?? 16).toDouble(),
+    (settings['padding_right'] ?? 16).toDouble(),
+    (settings['padding_bottom'] ?? 16).toDouble(),
+  );
+}
+
+EdgeInsets buildMargin(Map settings) {
+  return EdgeInsets.only(
+    top: (settings['margin_top'] ?? 0).toDouble(),
+    bottom: (settings['margin_bottom'] ?? 0).toDouble(),
+  );
+}
+```
+
+### Animations in Flutter
+
+Map the `animation` setting to Flutter animations:
+
+```dart
+Widget applyAnimation(Widget child, Map settings) {
+  final anim = settings['animation'];
+  if (anim == null || anim.isEmpty) return child;
+  
+  final duration = parseDuration(settings['animation_duration'] ?? '0.5s');
+  
+  switch (anim) {
+    case 'fadeIn': return FadeInAnimation(child: child, duration: duration);
+    case 'slideInUp': return SlideAnimation(child: child, direction: AxisDirection.up, duration: duration);
+    case 'slideInLeft': return SlideAnimation(child: child, direction: AxisDirection.left, duration: duration);
+    case 'slideInRight': return SlideAnimation(child: child, direction: AxisDirection.right, duration: duration);
+    case 'zoomIn': return ScaleAnimation(child: child, duration: duration);
+    case 'bounceIn': return BounceAnimation(child: child, duration: duration);
+    case 'pulse': return PulseAnimation(child: child, duration: duration);
+    default: return child;
+  }
+}
+```
 
 ---
 

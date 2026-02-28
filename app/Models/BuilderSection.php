@@ -38,6 +38,8 @@ class BuilderSection extends Model
         'video' => ['name' => 'Video', 'icon' => 'tio-video', 'description' => 'Embedded video'],
         'custom_html' => ['name' => 'Custom HTML', 'icon' => 'tio-code', 'description' => 'Raw HTML content'],
         'columns' => ['name' => 'Columns', 'icon' => 'tio-column', 'description' => 'Multi-column layout'],
+        'tabs' => ['name' => 'Tabs', 'icon' => 'tio-tab', 'description' => 'Tabbed container for organizing content'],
+        'restaurant_foods' => ['name' => 'Restaurant + Foods', 'icon' => 'tio-store', 'description' => 'Restaurant card with scrollable food list'],
     ];
 
     // Default settings per section type
@@ -144,6 +146,33 @@ class BuilderSection extends Model
                 'columns' => 2,
                 'gap' => 16,
                 'column_widths' => [50, 50], // percentages
+            ],
+            'tabs' => [
+                'tab_labels' => ['Tab 1', 'Tab 2'],
+                'active_tab' => 0,
+                'tab_style' => 'default',
+                'tab_bg_color' => '#ffffff',
+                'tab_active_color' => '#FC6A57',
+                'tab_text_color' => '#333333',
+                'tab_active_text_color' => '#ffffff',
+                'tab_border_radius' => 8,
+                'content_padding' => 16,
+            ],
+            'restaurant_foods' => [
+                'restaurant_id' => null,
+                'show_restaurant_logo' => true,
+                'show_restaurant_name' => true,
+                'show_restaurant_rating' => true,
+                'food_display_mode' => 'scroll',
+                'food_count' => 10,
+                'food_selection' => 'auto',
+                'selected_food_ids' => [],
+                'card_aspect_ratio' => '3:1',
+                'show_food_price' => true,
+                'show_food_name' => true,
+                'show_food_image' => true,
+                'card_bg_color' => '#ffffff',
+                'food_card_bg_color' => '#f8f9fa',
             ],
         ];
 
