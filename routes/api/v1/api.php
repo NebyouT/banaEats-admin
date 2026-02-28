@@ -477,6 +477,31 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>['localization','react']], 
     Route::get('get-vehicles', 'ConfigController@get_vehicles');
     Route::get('get-PaymentMethods', 'ConfigController@getPaymentMethods');
     Route::get('offline_payment_method_list', 'ConfigController@offline_payment_method_list');
+
+    // Page Builder Routes
+    Route::group(['prefix' => 'pages'], function () {
+        Route::get('/', 'PageBuilderController@index');
+        Route::get('/{slug}', 'PageBuilderController@show');
+        Route::get('/{slug}/webview-url', 'PageBuilderController@getWebViewUrl');
+    });
+
+    // AI Routes
+    Route::group(['prefix' => 'ai'], function () {
+        Route::post('generate-text', 'AIController@generateText');
+        Route::post('analyze-image', 'AIController@analyzeImage');
+        Route::post('upload-analyze-image', 'AIController@uploadAndAnalyzeImage');
+        Route::post('generate-code', 'AIController@generateCode');
+        Route::post('translate', 'AIController@translateText');
+        Route::post('summarize', 'AIController@summarizeText');
+        Route::post('analyze-sentiment', 'AIController@analyzeSentiment');
+        Route::post('moderate-content', 'AIController@moderateContent');
+        Route::post('process-multimodal', 'AIController@processMultimodal');
+        Route::post('generate-structured-data', 'AIController@generateStructuredData');
+        Route::post('generate-creative-content', 'AIController@generateCreativeContent');
+        Route::post('analyze-document', 'AIController@analyzeDocument');
+        Route::get('providers', 'AIController@getProviders');
+        Route::post('test-provider', 'AIController@testProvider');
+    });
 });
 
 WebSocketsRouter::webSocket('/delivery-man/live-location', DMLocationSocketHandler::class);

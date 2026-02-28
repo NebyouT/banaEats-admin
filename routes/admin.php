@@ -933,6 +933,40 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('change-status/{id}/{status}', 'DeliveryManDisbursementController@statusById')->name('change-status');
             Route::get('export/{id}/{type?}', 'DeliveryManDisbursementController@export')->name('export');
         });
+        // Page Builder (Advanced Custom Pages)
+        Route::group(['prefix' => 'page-builder', 'as' => 'page-builder.'], function () {
+            Route::get('/',                                      'PageBuilderController@index')->name('index');
+            Route::get('create',                                 'PageBuilderController@create')->name('create');
+            Route::post('store',                                 'PageBuilderController@store')->name('store');
+            Route::get('edit/{id}',                              'PageBuilderController@edit')->name('edit');
+            Route::post('update/{id}',                           'PageBuilderController@update')->name('update');
+            Route::post('update-settings/{id}',                  'PageBuilderController@updateSettings')->name('update-settings');
+            Route::post('status',                                'PageBuilderController@status')->name('status');
+            Route::post('publish/{id}',                          'PageBuilderController@publish')->name('publish');
+            Route::delete('delete/{id}',                         'PageBuilderController@delete')->name('delete');
+            Route::get('duplicate/{id}',                         'PageBuilderController@duplicate')->name('duplicate');
+            Route::get('preview/{id}',                           'PageBuilderController@preview')->name('preview');
+            Route::get('export/{id}',                            'PageBuilderController@exportPage')->name('export');
+            Route::post('import',                                'PageBuilderController@importPage')->name('import');
+            Route::post('save-structure/{id}',                   'PageBuilderController@savePageStructure')->name('save-structure');
+            // Sections
+            Route::post('section/add/{pageId}',                  'PageBuilderController@addSection')->name('section.add');
+            Route::post('section/update/{sectionId}',            'PageBuilderController@updateSection')->name('section.update');
+            Route::delete('section/delete/{sectionId}',          'PageBuilderController@deleteSection')->name('section.delete');
+            Route::post('section/reorder/{pageId}',              'PageBuilderController@reorderSections')->name('section.reorder');
+            // Components
+            Route::post('component/add/{sectionId}',             'PageBuilderController@addComponent')->name('component.add');
+            Route::post('component/update/{componentId}',        'PageBuilderController@updateComponent')->name('component.update');
+            Route::delete('component/delete/{componentId}',      'PageBuilderController@deleteComponent')->name('component.delete');
+            Route::post('component/reorder/{sectionId}',         'PageBuilderController@reorderComponents')->name('component.reorder');
+            // Data search
+            Route::get('search-products',                        'PageBuilderController@searchProducts')->name('search-products');
+            Route::get('search-restaurants',                     'PageBuilderController@searchRestaurants')->name('search-restaurants');
+            Route::get('search-categories',                      'PageBuilderController@searchCategories')->name('search-categories');
+            // Media
+            Route::post('upload-media',                          'PageBuilderController@uploadMedia')->name('upload-media');
+        });
+
         // Custom Pages
         Route::group(['prefix' => 'custom-page', 'as' => 'custom-page.'], function () {
             Route::get('/',                                  'CustomPageController@index')->name('index');

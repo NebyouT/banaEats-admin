@@ -63,6 +63,21 @@ return [
             ]) : [],
         ],
 
+        'easy' => [
+            'driver' => 'mysql',
+            'host' => env('EASY_DB_HOST', '127.0.0.1'),
+            'port' => env('EASY_DB_PORT', '3306'),
+            'database' => env('EASY_DB_DATABASE', 'easy'),
+            'username' => env('EASY_DB_USERNAME', 'root'),
+            'password' => env('EASY_DB_PASSWORD', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

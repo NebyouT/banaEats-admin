@@ -252,7 +252,7 @@ if (!function_exists('addon_published_status')) {
 if (!function_exists('dynamicAsset')) {
     function dynamicAsset(string $directory): string
     {
-        if (DOMAIN_POINTED_DIRECTORY == 'public') {
+        if (defined('DOMAIN_POINTED_DIRECTORY') && DOMAIN_POINTED_DIRECTORY == 'public') {
             $result = str_replace('public/', '', $directory);
         } else {
             $result = $directory;
@@ -263,7 +263,7 @@ if (!function_exists('dynamicAsset')) {
 if (!function_exists('dynamicStorage')) {
     function dynamicStorage(string $directory): string
     {
-        if (DOMAIN_POINTED_DIRECTORY == 'public') {
+        if (defined('DOMAIN_POINTED_DIRECTORY') && DOMAIN_POINTED_DIRECTORY == 'public') {
             $result = str_replace('storage/app/public', 'storage', $directory);
         } else {
             $result = $directory;

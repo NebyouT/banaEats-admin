@@ -72,6 +72,9 @@ Route::get('subscription-invoice/{id}', 'HomeController@subscription_invoice')->
 // Gamification - Public Game Play Route for Mobile App
 Route::get('gamification/play/{gameId}', 'GamificationPlayController@play')->name('gamification.play');
 
+// Page Builder - Public Page Rendering for Mobile App WebView
+Route::get('page/{slug}', 'PageBuilderPublicController@render')->name('page.render');
+
 Route::get('authentication-failed', function () {
     $errors = [];
     array_push($errors, ['code' => 'auth-001', 'message' => 'Unauthenticated.']);
