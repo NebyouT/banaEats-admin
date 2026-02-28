@@ -14,11 +14,14 @@ class CustomPageBanner extends Model
         'media_type',
         'type',
         'page_id',
+        'page_type',
+        'builder_page_id',
         'status',
     ];
 
     protected $casts = [
         'page_id' => 'integer',
+        'builder_page_id' => 'integer',
         'status'  => 'integer',
     ];
 
@@ -45,6 +48,22 @@ class CustomPageBanner extends Model
     public function linkedPage()
     {
         return $this->belongsTo(CustomPage::class, 'page_id');
+    }
+
+    public function builderPage()
+    {
+        return $this->belongsTo(BuilderPage::class, 'builder_page_id');
+    }
+
+    /**
+     * Get the linked page (either old custom page or new builder page)
+     */
+    public function getLinkedPageData()
+    {
+        if ($this->page_type === 'builder' && $this->builder_page_id) {
+            return $this->builderPage;
+        }
+        return $this->linkedPage;
     }
 
     public function isVideo(): bool

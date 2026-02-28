@@ -321,26 +321,27 @@ textarea.prop-input { font-size: 12px; resize: vertical; }
 <script>
 "use strict";
 
-let pageData = @json($page->toBuilderJson());
-let selectedSection = null;
-let selectedComponent = null;
-const SECTION_TYPES = {!! json_encode($sectionTypes) !!};
-const COMPONENT_TYPES = {!! json_encode($componentTypes) !!};
-const DEFAULT_IMG = '{{ dynamicAsset("public/assets/admin/img/100x100/food-default-image.png") }}';
-const URLS = {
-    save: '{{ route("admin.page-builder.save-structure", $page->id) }}',
-    publish: '{{ route("admin.page-builder.publish", $page->id) }}',
-    upload: '{{ route("admin.page-builder.upload-media") }}',
-    searchProducts: '{{ route("admin.page-builder.search-products") }}',
-    searchRestaurants: '{{ route("admin.page-builder.search-restaurants") }}',
-    searchCategories: '{{ route("admin.page-builder.search-categories") }}',
-};
-const CSRF = '{{ csrf_token() }}';
+// Wait for jQuery to be ready
+jQuery(document).ready(function($) {
+    let pageData = @json($page->toBuilderJson());
+    let selectedSection = null;
+    let selectedComponent = null;
+    const SECTION_TYPES = {!! json_encode($sectionTypes) !!};
+    const COMPONENT_TYPES = {!! json_encode($componentTypes) !!};
+    const DEFAULT_IMG = '{{ dynamicAsset("public/assets/admin/img/100x100/food-default-image.png") }}';
+    const URLS = {
+        save: '{{ route("admin.page-builder.save-structure", $page->id) }}',
+        publish: '{{ route("admin.page-builder.publish", $page->id) }}',
+        upload: '{{ route("admin.page-builder.upload-media") }}',
+        searchProducts: '{{ route("admin.page-builder.search-products") }}',
+        searchRestaurants: '{{ route("admin.page-builder.search-restaurants") }}',
+        searchCategories: '{{ route("admin.page-builder.search-categories") }}',
+    };
+    const CSRF = '{{ csrf_token() }}';
 
-// ══════════════════════════════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════════════════════════════
-$(document).ready(function() {
+    // ══════════════════════════════════════════════════════════════════════
+    // INIT
+    // ══════════════════════════════════════════════════════════════════════
     renderCanvas();
     initSidebarTabs();
     initDragDrop();
@@ -348,7 +349,6 @@ $(document).ready(function() {
     initGlobalEvents();
     initSavePublish();
     loadPickerFilters();
-});
 
 // ══════════════════════════════════════════════════════════════════════
 // CANVAS RENDERING (live preview)
@@ -1238,7 +1238,7 @@ function initSavePublish() {
             toastr.success(r.message);
         });
     });
-}
+});
 </script>
 
 <style>

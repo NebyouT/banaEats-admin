@@ -509,7 +509,7 @@ class PageBuilderController extends Controller
             $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('public/page-builder', $filename);
 
-            $url = asset('storage/app/public/page-builder/' . $filename);
+            $url = dynamicStorage('storage/app/public/page-builder') . '/' . $filename;
 
             return response()->json([
                 'success' => true,
